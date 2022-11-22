@@ -1,90 +1,70 @@
 from memoria import *
 from cuadruplos import *
+import sys
+
+# variables globales
 
 tablaMemoria = Memoria()
-pila = Pilas()
-
-#listaCuadruplos = Cuadruplos()
+listaCuadruplos = Cuadruplos()
+Poper = []
+PilaO = []
+Ptipos = []
+Pmigas = []
+Psaltos = []
 
 flag = 0
-txt = ""
 flagtbVar = 0
 
-def dirVirtual(self):
-    if self in tablaMemoria.tbVarFun :
-        return tablaMemoria.tbVarFun.get(self)[0]
-    elif self in tablaMemoria.tbVar:
-        return tablaMemoria.tbVar.get(self)[0]
-    elif self in tablaMemoria.tbConst:
-        return tablaMemoria.tbConst.get(self)
-    elif self in tablaMemoria.tbTempI:
-        return tablaMemoria.tbTempI.get(self)
-    elif self in tablaMemoria.tbTempB:
-        return tablaMemoria.tbTempB.get(self)
-    elif self in tablaMemoria.tbTempP:
-        return tablaMemoria.tbTempP.get(self)
-    else:
-        return self
+tempI = 0
+tempP = 0
+tempB = 0
 
-listaCuadruplos = []
-
-
-temp = 0
-def incrementarTemp():
-    global temp
-    temp = temp + 1
-    return "%d" %temp
+# Funciones para el manejo Temporales
 
 def reiniciarTemp():
     global temp
+    global tempP
+    global tempB
     temp = 0
+    tempP = 0
+    tempB = 0
 
-def getTemp():
-    global temp
-    return "%d" %temp
+def incrementarTempI():
+    global tempI
+    tempI = tempI + 1
+    return tempI
+
+def incrementarTempP():
+    global tempP
+    tempP = tempP + 1
+    return tempP
+
+def incrementarTempB():
+    global tempB
+    tempB = tempB + 1
+    return tempB
 
 parm = 0
 def incrementarParam():
     global parm
     parm = parm + 1
-    return "%d" %parm
+    return parm
 
 def reiniciarParam():
     global parm
     parm = 0
 
-def getParam():
-    global parm
-    return "%d" %parm
+# Funciones para el manejo de direcciones Virtuales
 
-tempP = 0
-def incrementarTempP():
-    global tempP
-    tempP = tempP + 1
-    return "%d" %tempP
+def dirVirtual(var):
+    if var in tablaMemoria.tbVarFun :
+        return tablaMemoria.tbVarFun.get(var)[0]
+    elif var in tablaMemoria.tbVar:
+        return tablaMemoria.tbVar.get(var)[0]
+    return var
 
-def reiniciarTempP():
-    global tempP
-    tempP = 0
 
-def getTempP():
-    global tempP
-    return "%d" %tempP
-
-tempB = 0
-def incrementarTempB():
-    global tempB
-    tempB = tempB + 1
-    return "%d" %tempB
-
-def reiniciarTempB():
-    global tempB
-    tempB = 0
-
-def getTempB():
-    global tempB
-    return "%d" %tempB
-# ---------------------------
+# ---------------------------------------------
 
 class Nodo():
     pass
@@ -105,14 +85,13 @@ class program(Nodo):
         self.son3 = son3
 
     def traducir(self):
-        global txt
+        txt = ""
         global flagtbVar
 
         # REGLA
         # CUADRUPLO DE INICIO
-        listaCuadruplos.append(cuadruplo("Goto",None,None,'Main').cuad3())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        listaCuadruplos.cuad3("Goto",'Main',None)
+        Pmigas.append(listaCuadruplos.getCont())
         
         # DEF_VARS
         if type(self.son1) == type(tuple()):
@@ -130,8 +109,7 @@ class program(Nodo):
 
         # REGLA
         # PILA DE SALTOS
-        #Psaltos.insert(0, cuadruplo.getCont(cuadruplo)+1)
-        pila.addStartPsaltos(0,cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.insert(0,listaCuadruplos.getCont()+1)
 
         # BLOCK
         if type(self.son3) == type(tuple()):
@@ -141,29 +119,25 @@ class program(Nodo):
 
         # REGLA
         # CUADRUPLO DE FIN
-        listaCuadruplos.append(cuadruplo("EndProc",None,None,None).cuadEnd())
-        tablaMemoria.reiniciarCont()
-        reiniciarTemp()
-        reiniciarTempB()
-        reiniciarTempP()
+        listaCuadruplos.cuad4("EndProc",None,None,None)
+
+        #print(tablaMemoria.tbFun)
+        #print(tablaMemoria.tbConst)
+        #print(tablaMemoria.tbVar)
+        #print(tablaMemoria.tbTempI)
+        #print(tablaMemoria.tbTempB)
+        #print(tablaMemoria.tbTempP)
 
         # REGLA
-        #print(Memoria.__str__())
-        print(tablaMemoria.tbFun)
-        print(tablaMemoria.tbConst)
-        print(tablaMemoria.tbVar)
-        print(tablaMemoria.tbTempI)
-        print(tablaMemoria.tbTempB)
-        print(tablaMemoria.tbTempP)
-        #aux = migajitas.pop(0)
-        aux = pila.delPmigas(0)
-        for i in range(len(listaCuadruplos)):
+        # VACIAR PILA DE SALTOS y PILA DE MIGAS
+        aux = Pmigas.pop(0)
+        for i in range(len(listaCuadruplos.cuadruplos)):
             if i == aux-1:
-                txt = txt + str(listaCuadruplos.pop(0)) + " " + str(pila.delPsaltos(0)) + "\n"
-                if pila.lenPmigas() > 0:
-                    aux = pila.delPmigas(0)
+                txt = txt + str(listaCuadruplos.cuadruplos.pop(0)) + " " + str(Psaltos.pop(0)) + "\n"
+                if len(Pmigas) > 0:
+                    aux = Pmigas.pop(0)
             else:
-                txt = txt + str(listaCuadruplos.pop(0)) + "\n"
+                txt = txt + str(listaCuadruplos.cuadruplos.pop(0)) + "\n"
         return txt
 
 # -------------------- FUNCTIONS --------------------
@@ -190,8 +164,8 @@ class functions(Nodo):
 
         # REGLA
         # MEMORIA TABLA DE FUNCIONES
-        
-        tablaMemoria.addtbFun(pila.delPilaO(-1),cuadruplo.getCont(cuadruplo)+1)
+        tablaMemoria.addtbFun(PilaO.pop(),listaCuadruplos.getCont()+1)
+
         # PARAM
         if type(self.son3) == type(tuple()):
             self.son3[0].traducir()
@@ -203,15 +177,14 @@ class functions(Nodo):
         else:
             self.son4.traducir()
 
-        print(tablaMemoria.tbVarFun)
-        tablaMemoria.tbVarFun.clear()
+        #print(tablaMemoria.tbVarFun)
+
         # REGLA
         # CUADRUPLO DE FIN DE FUNCION
-        listaCuadruplos.append(cuadruplo("EndProc",None,None,None).cuadEnd())
+        listaCuadruplos.cuad4("EndProc",None,None,None)
+        tablaMemoria.tbVarFun.clear()
         tablaMemoria.reiniciarCont()
         reiniciarTemp()
-        reiniciarTempB()
-        reiniciarTempP()
         #fun.setFin(cuadruplo.getCont(cuadruplo))
 
         # FUNCIONS (RECURSIÓN)
@@ -240,7 +213,7 @@ class param1(Nodo):
 
         # REGLA
         # MEMORIA TABLA DE VARIABLES FUN
-        tablaMemoria.addtbVarFun(pila.delPilaO(0), pila.delPtipos(0),1,1)
+        tablaMemoria.addtbVarFun(PilaO.pop(0), Ptipos.pop(0),1,1)
 
         # PARAM (RECURSIÓN)
         if type(self.son3) == type(tuple()):
@@ -267,7 +240,7 @@ class param2(Nodo):
 
         # REGLA
         # MEMORIA TABLA DE VARIABLES FUN
-        tablaMemoria.addtbVarFun(pila.delPilaO(0), pila.delPtipos(0),1,1)
+        tablaMemoria.addtbVarFun(PilaO.pop(0), Ptipos.pop(0),1,1)
 
 # ------------------ BLOCK ------------------
     
@@ -399,7 +372,7 @@ class statment8(Nodo):
 
         #REGLA
         # CUADRUPLO DE RETORNO CON EXPRESION
-        listaCuadruplos.append(cuadruplo("Ret",None, None, pila.delPilaO(-1)).cuad4())
+        listaCuadruplos.cuad4("Ret",None, None, dirVirtual(PilaO.pop()))
 
 class statment9(Nodo):
     pass
@@ -449,13 +422,11 @@ class vars_n1(Nodo):
         self.son2 = son2
 
     def traducir(self):
-        global txt
         # ID
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
         else:
             self.son1.traducir()
-        #print("size 1")
 
         # VARS_N (RECURSIÓN)
         if type(self.son2) == type(tuple()):
@@ -473,12 +444,15 @@ class vars_n2(Nodo):
             self.son1[0].traducir()
         else:
             self.son1.traducir()
-        tipo = pila.delPtipos(-1)
-        for i in range(pila.lenPilaO()):
+
+        # REGLA
+        # CUADRUPLO DE DECLARACION DE VARIABLE
+        tipo = Ptipos.pop()
+        for i in range(len(PilaO)):
             if flagtbVar == 0:
-                tablaMemoria.addtbVar(pila.delPilaO(0), tipo, 1, 1)
+                tablaMemoria.addtbVar(PilaO.pop(0), tipo, 1, 1)
             else:
-                tablaMemoria.addtbVarFun(pila.delPilaO(0), tipo, 1, 1)
+                tablaMemoria.addtbVarFun(PilaO.pop(0), tipo, 1, 1)
 
 class vars_n3(Nodo):
     def __init__(self, son1, son2):
@@ -497,11 +471,12 @@ class vars_n3(Nodo):
         else:
             self.son2.traducir()
         
-        size = pila.delPilaO(-1)
+        # REGLA
+        # CUADRUPLO DE DECLARACION DE ARREGLO
         if flagtbVar == 0:
-            tablaMemoria.addtbVar(pila.delPilaO(0), pila.delPtipos(0), size+1, 1)
+            tablaMemoria.addtbVar(PilaO.pop(0), Ptipos.pop(0), PilaO.pop()+1, 1)
         else:
-            tablaMemoria.addtbVarFun(pila.delPilaO(0), pila.delPtipos(0), size+1, 1)
+            tablaMemoria.addtbVarFun(PilaO.pop(0), Ptipos.pop(0), PilaO.pop()+1, 1)
 
 class vars_n4(Nodo):
     def __init__(self, son1, son2, son3):
@@ -526,12 +501,12 @@ class vars_n4(Nodo):
         else:
             self.son3.traducir()
 
-        size = pila.delPilaO(-1)
-        size2 = pila.delPilaO(-1)
+        # REGLA
+        # CUADRUPLO DE DECLARACION DE MATRIZ
         if flagtbVar == 0:
-            tablaMemoria.addtbVar(pila.delPilaO(0), pila.delPtipos(0), size+1, size2+1)
+            tablaMemoria.addtbVar(PilaO.pop(0), Ptipos.pop(0), PilaO.pop()+1, PilaO.pop()+1)
         else:
-            tablaMemoria.addtbVarFun(pila.delPilaO(0), pila.delPtipos(0), size+1, size2+1)
+            tablaMemoria.addtbVarFun(PilaO.pop(0), Ptipos.pop(0), PilaO.pop()+1, PilaO.pop()+1)
 
 # --------------------------- ASSIGNMENT ---------------------------
 
@@ -560,7 +535,7 @@ class assignment(Nodo):
 
         # REGLA
         # CUADRUPLO DE ASIGNACION
-        listaCuadruplos.append(cuadruplo(pila.delPoper(),pila.delPilaO(-1),None,pila.delPilaO(-1)).cuad4())
+        listaCuadruplos.cuad4(Poper.pop(),dirVirtual(PilaO.pop()),None,dirVirtual(PilaO.pop()))
 
 # --------------------------- CONDICION ---------------------------
 
@@ -579,9 +554,8 @@ class condition(Nodo):
 
         #REGLA
         # CUADRUPLO DE GOTOF IF
-        listaCuadruplos.append(cuadruplo("GotoF",None, None, pila.delPilaO(-1)).cuad4())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        listaCuadruplos.cuad3("GotoF",PilaO.pop() ,None)
+        Pmigas.append(listaCuadruplos.getCont())
         
         # BLOCK
         if type(self.son2) == type(tuple()):
@@ -591,8 +565,7 @@ class condition(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTF IF
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
         # CONDITION_ESLE (SI EXISTE)
         if type(self.son3) == type(tuple()):
@@ -616,9 +589,8 @@ class condition_else1(Nodo):
 
         # REGLA
         # CUADRUPLO GOTF ELIF
-        listaCuadruplos.append(cuadruplo("GotoF",None,None,pila.delPilaO(-1)).cuad4())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        listaCuadruplos.cuad3("GotoF",PilaO.pop() ,None)
+        Pmigas.append(listaCuadruplos.getCont())
 
         # BLOCK
         if type(self.son2) == type(tuple()):
@@ -628,8 +600,7 @@ class condition_else1(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTOF ELIF
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
         
         # CONDITION_ESLE (RECURSIÓN)
         if type(self.son3) == type(tuple()):
@@ -644,15 +615,13 @@ class condition_else2(Nodo):
     def traducir(self):
         #REGLA
         # CUADRUPLO GOTO ELSE
-        #Psaltos.pop()
-        pila.delPsaltos(-1)
-        listaCuadruplos.append(cuadruplo("Goto",None,None,None).cuad3())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        Psaltos.pop()
+        listaCuadruplos.cuad3("Goto",None,None)
+        Pmigas.append(listaCuadruplos.getCont())
+
         # REGLA
         # PILA DE SALTO GOTOF
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
         # BLOCK
         if type(self.son1) == type(tuple()):
@@ -662,8 +631,7 @@ class condition_else2(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTO ELSE
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
 # --------------------------- WHILE LOOP ---------------------------
 
@@ -675,8 +643,7 @@ class while_loop(Nodo):
     def traducir(self):
         # REGLA
         # PILA DE SALTO GOTO WHILE
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
         # EXPRESSION
         if type(self.son1) == type(tuple()):
@@ -684,11 +651,10 @@ class while_loop(Nodo):
         else:
             self.son1.traducir()
 
-        #REGLA
+        # REGLA
         # CUADRUPLO GOTOF WHILE
-        listaCuadruplos.append(cuadruplo("GotoF",None,None,pila.delPilaO(-1)).cuad4())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        listaCuadruplos.cuad3("GotoF",PilaO.pop() ,None)
+        Pmigas.append(listaCuadruplos.getCont())
 
         # BLOCK
         if type(self.son2) == type(tuple()):
@@ -698,12 +664,12 @@ class while_loop(Nodo):
 
         # REGLA
         # CUADRUPLO GOTO WHILE
-        listaCuadruplos.append(cuadruplo("Goto",None,None,pila.delPsaltos(-1)).cuad4())
+        listaCuadruplos.cuad4("Goto",None,None,Psaltos.pop())
         
         # REGLA
         # PILA DE SALTO GOTOF WHILE
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
+
 
 
 # --------------------------- DO WHILE ---------------------------
@@ -717,8 +683,7 @@ class do_while_loop(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTO
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
         # BLOCK
         if type(self.son1) == type(tuple()):
@@ -734,8 +699,8 @@ class do_while_loop(Nodo):
 
         # REGLA
         # CUADRUPLO GOTOV DO WHILE
-        listaCuadruplos.append(cuadruplo("GotoV",pila.delPilaO(-1),None,pila.delPsaltos(-1)).cuad4())
-        
+        listaCuadruplos.cuad4("GotoV",dirVirtual(PilaO.pop()),None,Psaltos.pop())
+
 # --------------------------- FOR LOOP ---------------------------
 
 class for_loop(Nodo):
@@ -754,8 +719,7 @@ class for_loop(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTO
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
         # FOR PARAM2
         if type(self.son2) == type(tuple()):
@@ -768,11 +732,10 @@ class for_loop(Nodo):
         else:
             self.son3.traducir()
 
-        #REGLA
+        # REGLA
         # CUADRUPLO GOTOF FOR
-        listaCuadruplos.append(cuadruplo("GotoF",None,None,pila.delPilaO(-1)).cuad4())
-        #migajitas.append(cuadruplo.getCont(cuadruplo))
-        pila.addPmigas(cuadruplo.getCont(cuadruplo))
+        listaCuadruplos.cuad3("GotoF", PilaO.pop() ,None)
+        Pmigas.append(listaCuadruplos.getCont())
 
         # BLOCK
         if type(self.son4) == type(tuple()):
@@ -780,21 +743,19 @@ class for_loop(Nodo):
         else:
             self.son4.traducir()
 
-        #REGLA
+        # REGLA
         # CUADRUPLO GOTO FOR
-        listaCuadruplos.append(cuadruplo("Goto",None,None,pila.delPsaltos(-1)).cuad4())
+        listaCuadruplos.cuad4("Goto",None,None,Psaltos.pop())
         
         # REGLA
         # PILA DE SALTO GOTOF
-        #Psaltos.append(cuadruplo.getCont(cuadruplo)+1)
-        pila.addPsaltos(cuadruplo.getCont(cuadruplo)+1)
+        Psaltos.append(listaCuadruplos.getCont()+1)
 
 class for_param1(Nodo):
     def __init__(self, son1):
         self.son1 = son1
 
     def traducir(self):
-        global txt
         # ASIGNACION
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
@@ -806,7 +767,6 @@ class for_param2(Nodo):
         self.son1 = son1
 
     def traducir(self):
-        global txt
         # EXPRESSION
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
@@ -839,12 +799,10 @@ class function_call(Nodo):
         else:
             self.son1.traducir()
         
-        # REGLAS
-        reiniciarParam()
-        fun = pila.delPilaO(-1)
-
+        # REGLA
         # CUADRUPLO ERA
-        listaCuadruplos.append(cuadruplo("ERA",None,None,fun).cuad4())
+        fun = PilaO.pop()
+        listaCuadruplos.cuad4("ERA",None,None,fun)
 
         # FUN_PARAM
         if type(self.son2) == type(tuple()):
@@ -852,15 +810,17 @@ class function_call(Nodo):
         else:
             self.son2.traducir()
 
-        # REGLAS
+        # REGLA
         # CUADRUPLO GOSUB
-        listaCuadruplos.append(cuadruplo("GOSUB",None,None,fun).cuad4())
+        reiniciarParam()
+        listaCuadruplos.cuad4("GOSUB",None,None,fun)
+
+        # REGLA
         # CUADRUPLO ASIGNACION DE FUN A TEMP
         if flag == 0:
-            tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTemp()))
-            listaCuadruplos.append(cuadruplo("=",fun,None,tablaMemoria.getContTbTempI()).cuad4())
-            #PilaO.append("t{temp}".format(temp=temp))
-            pila.addPilaO("t{temp}".format(temp=temp))
+            tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
+            listaCuadruplos.cuad4("=",fun,None,tablaMemoria.getContTbTempI())
+            PilaO.append(tablaMemoria.getContTbTempI())
         
 
 class fun_param1(Nodo):
@@ -877,8 +837,8 @@ class fun_param1(Nodo):
 
         # REGLA
         # CUADRUPLO PARAM
-        listaCuadruplos.append(cuadruplo("Param",pila.delPilaO(-1),None,"par{parm}".format(parm=incrementarParam())).cuad4())
-
+        listaCuadruplos.cuad4("Param",dirVirtual(PilaO.pop()),None,"par{parm}".format(parm=incrementarParam()))
+        
         # FUN_PARAM
         if type(self.son2) == type(tuple()):
             self.son2[0].traducir()
@@ -890,7 +850,6 @@ class fun_param2(Nodo):
         self.son1 = son1
 
     def traducir(self):
-        global txt
         # EXPRESSION
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
@@ -899,8 +858,7 @@ class fun_param2(Nodo):
 
         # REGLA
         # CUADRUPLO PARAM
-        listaCuadruplos.append(cuadruplo("Param",pila.delPilaO(-1),None,"par{parm}".format(parm=incrementarParam())).cuad4())
-
+        listaCuadruplos.cuad4("Param",dirVirtual(PilaO.pop()),None,"par{parm}".format(parm=incrementarParam()))
 
 # --------------------------- WRITE FUNCTION ---------------------------
 
@@ -928,8 +886,8 @@ class write1(Nodo):
             self.son1.traducir()
 
         #REGLA
-        # CUADRUPLO WRITE
-        listaCuadruplos.append(cuadruplo("print",None,None,pila.delPilaO(-1)).cuad4())
+        # CUADRUPLO PRINT
+        listaCuadruplos.cuad4("print",None,None,dirVirtual(PilaO.pop()))
 
         # WRITE (RECURSIÓN)
         if type(self.son2) == type(tuple()):
@@ -950,8 +908,8 @@ class write2(Nodo):
 
         # REGLA
         # CUADRUPLO PRINT
-        listaCuadruplos.append(cuadruplo("print",None,None,pila.delPilaO(-1)).cuad4())
-        
+        listaCuadruplos.cuad4("print",None,None,dirVirtual(PilaO.pop()))
+
 # --------------------------- READ FUNCTION ---------------------------
 
 class read_function(Nodo):
@@ -979,8 +937,8 @@ class read1(Nodo):
 
         #REGLA
         # CUADRUPLO READ
-        listaCuadruplos.append(cuadruplo("read",None,None,pila.delPilaO(-1)).cuad4())
-        
+        listaCuadruplos.cuad4("read",None,None,dirVirtual(PilaO.pop()))
+
         # read (RECURSIÓN)
         if type(self.son2) == type(tuple()):
             self.son2[0].traducir()
@@ -1000,8 +958,7 @@ class read2(Nodo):
 
         # REGLA
         # CUADRUPLO READ
-        listaCuadruplos.append(cuadruplo("read",None,None,pila.delPilaO(-1)).cuad4())
-        
+        listaCuadruplos.cuad4("read",None,None,dirVirtual(PilaO.pop()))
 
 # ---------------------------- EXPRESSIONS ----------------------------
 
@@ -1042,8 +999,8 @@ class expression2(Nodo):
         # REGLA
         # CUADRUPLO EXP
         tablaMemoria.addtbTempB("tb{temp}".format(temp=incrementarTempB()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempB()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempB())
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempB())
+        PilaO.append(tablaMemoria.getContTbTempB())
         
 
 class exp_or1(Nodo):
@@ -1083,8 +1040,8 @@ class exp_or2(Nodo):
         # REGLA
         # CUADRUPLO EXP
         tablaMemoria.addtbTempB("tb{temp}".format(temp=incrementarTempB()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempB()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempB())
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempB())
+        PilaO.append(tablaMemoria.getContTbTempB())
 
 class exp_and1(Nodo):
     def __init__(self, son1):
@@ -1123,8 +1080,8 @@ class exp_and2(Nodo):
         # REGLA
         # CUADRUPLO EXP
         tablaMemoria.addtbTempB("tb{temp}".format(temp=incrementarTempB()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempB()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempB())
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempB())
+        PilaO.append(tablaMemoria.getContTbTempB())
 
 
 class exp_not1(Nodo):
@@ -1164,8 +1121,8 @@ class exp_not2(Nodo):
         # REGLA
         # CUADRUPLO EXP
         tablaMemoria.addtbTempB("tb{temp}".format(temp=incrementarTempB()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempB()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempB())
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempB())
+        PilaO.append(tablaMemoria.getContTbTempB())
 
 class exp_not3(Nodo):
     def __init__(self, son1, son2, son3):
@@ -1193,8 +1150,8 @@ class exp_not3(Nodo):
         # REGLA
         # CUADRUPLO EXP
         tablaMemoria.addtbTempB("tb{temp}".format(temp=incrementarTempB()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempB()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempB())
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempB())
+        PilaO.append(tablaMemoria.getContTbTempB())
 
 class exp1(Nodo):
     def __init__(self, son1):
@@ -1232,9 +1189,9 @@ class exp2(Nodo):
         
         # REGLA
         # CUADRUPLO EXP
-        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTemp()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-2), pila.delPilaO(-1), tablaMemoria.getContTbTempI()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempI())
+        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempI())
+        PilaO.append(tablaMemoria.getContTbTempI())
 
 class term1(Nodo):
     def __init__(self, son1):
@@ -1272,10 +1229,10 @@ class term2(Nodo):
         
         # REGLA
         # CUADRUPLO EXP
-        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTemp()))
-        listaCuadruplos.append(cuadruplo(pila.delPoper(), pila.delPilaO(-1), pila.delPilaO(-1), tablaMemoria.getContTbTempI()).cuadExp())
-        pila.addPilaO(tablaMemoria.getContTbTempI())
-        
+        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
+        listaCuadruplos.cuad4(Poper.pop(), dirVirtual(PilaO.pop(-2)), dirVirtual(PilaO.pop()), tablaMemoria.getContTbTempI())
+        PilaO.append(tablaMemoria.getContTbTempI())
+
 class factor1(Nodo):
     def __init__(self, son1):
         self.son1 = son1
@@ -1426,7 +1383,6 @@ class relational_l2_4(Nodo):
         self.son1 = son1
 
     def traducir(self):
-        global txt
         # GREATER_THAN_OR_EQUAL
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
@@ -1535,8 +1491,9 @@ class var2(Nodo):
         else:
             self.son1.traducir()
 
-        # REGLA PROVISIONAL
-        a = pila.delPilaO(-1)
+        # REGLA
+        # S1 Y DIRECCION BASE ARREGLO
+        a = PilaO.pop()
         if flagtbVar == 1 and a in tablaMemoria.tbVarFun:
             s1 = tablaMemoria.tbVarFun.get(a)[2] - 1
             dirA = tablaMemoria.tbVarFun.get(a)[0]
@@ -1555,12 +1512,11 @@ class var2(Nodo):
         
         # REGLA
         # CUADRUPLO ARREGLO
-        ver = pila.delPilaO(-1)
-        listaCuadruplos.append(cuadruplo("Ver", ver, "0", s1).cuad4())
+        ver = PilaO.pop()
+        listaCuadruplos.cuad4("Ver", dirVirtual(ver), None, s1)
         tablaMemoria.addtbTempP("tp{temp}".format(temp=incrementarTempP()))
-        listaCuadruplos.append(cuadruplo("+", ver, tablaMemoria.tbConst.get(dirA), tablaMemoria.getContTbTempP()).cuad4())
-        #PilaO.append("tp{temp}".format(temp=tempP)) ##Pointer
-        pila.addPilaO("tp{temp}".format(temp=incrementarTempP()))
+        listaCuadruplos.cuad4("+", dirVirtual(ver), tablaMemoria.tbConst.get(dirA), tablaMemoria.getContTbTempP())
+        PilaO.append(tablaMemoria.getContTbTempP())
 
 
 class var3(Nodo):
@@ -1577,8 +1533,9 @@ class var3(Nodo):
         else:
             self.son1.traducir()
 
-        # REGLA PROVISIONAL
-        a = pila.delPilaO(-1)
+        # REGLA
+        # S1, S2 Y DIRECCION BASE MATRIZ
+        a = PilaO.pop()
         if flagtbVar == 1 and a in tablaMemoria.tbVarFun:
             s1 = tablaMemoria.tbVarFun.get(a)[2] - 1
             s2 = tablaMemoria.tbVarFun.get(a)[3] - 1
@@ -1598,13 +1555,12 @@ class var3(Nodo):
             self.son2.traducir()
 
         # REGLA
-        # CUADRUPLO MATRIZ1
-        ver = pila.delPilaO(-1)
-        listaCuadruplos.append(cuadruplo("Ver", ver, "0", s1).cuad4())
-        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTemp()))
-        listaCuadruplos.append(cuadruplo("*", ver, s1, tablaMemoria.getContTbTempI()).cuad4())
-        #PilaO.append("t{temp}".format(temp=temp))
-        pila.addPilaO("t{temp}".format(temp=incrementarTemp()))
+        # CUADRUPLO MATRIZ 1
+        ver = PilaO.pop()
+        listaCuadruplos.cuad4("Ver", dirVirtual(ver), None, s1)
+        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
+        listaCuadruplos.cuad4("*", dirVirtual(ver), s1, tablaMemoria.getContTbTempI())
+        PilaO.append(tablaMemoria.getContTbTempI())
 
         # EXPRESSION
         if type(self.son3) == type(tuple()):
@@ -1613,17 +1569,15 @@ class var3(Nodo):
             self.son3.traducir()
 
         # REGLA
-        # CUADRUPLO MATRIZ2
-        ver = pila.delPilaO(-1)
-        listaCuadruplos.append(cuadruplo("Ver", ver, "0", s2).cuad4())
-        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTemp()))
-        listaCuadruplos.append(cuadruplo("+", pila.delPilaO(-1), ver, tablaMemoria.getContTbTempI()).cuad4())
-        #PilaO.append("t{temp}".format(temp=temp))
-        pila.addPilaO("t{temp}".format(temp=incrementarTemp()))
+        # CUADRUPLO MATRIZ 2
+        ver = PilaO.pop()
+        listaCuadruplos.cuad4("Ver", dirVirtual(ver), None, s2)
+        tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
+        listaCuadruplos.cuad4("+", dirVirtual(PilaO.pop()), ver, tablaMemoria.getContTbTempI())
+        PilaO.append(tablaMemoria.getContTbTempI())
         tablaMemoria.addtbTempP("tp{temp}".format(temp=incrementarTempP()))
-        listaCuadruplos.append(cuadruplo("+", pila.delPilaO(-1), tablaMemoria.tbConst.get(dirM), tablaMemoria.getContTbTempP()).cuad4())
-        #PilaO.append("tp{tempP}".format(tempP=tempP)) ##Pointer
-        pila.addPilaO("tp{tempP}".format(tempP=incrementarTempP()))
+        listaCuadruplos.cuad4("+", dirVirtual(PilaO.pop()), tablaMemoria.tbConst.get(dirM), tablaMemoria.getContTbTempP())
+        PilaO.append(tablaMemoria.getContTbTempP())
 
 # ---------------------------- TYPES -------------------------------------
 
@@ -1703,8 +1657,7 @@ class Id(Nodo):
         global flagtbVar
         # ID
         # REGLA
-        #PilaO.append(self.name)
-        pila.addPilaO(self.name)
+        PilaO.append(self.name)
 
 class Const_string(Nodo):
     def __init__(self, name):
@@ -1713,8 +1666,7 @@ class Const_string(Nodo):
     def traducir(self):
         # CONST_STRING
         # REGLA
-        #PilaO.append(self.name)
-        pila.addPilaO(self.name)
+        PilaO.append(self.name)
 
 class Const_int(Nodo):
     def __init__(self, name):
@@ -1725,8 +1677,7 @@ class Const_int(Nodo):
         # REGLA
         if self.name not in tablaMemoria.tbConst:
             tablaMemoria.addtbConst(self.name)
-        #PilaO.append(self.name)
-        pila.addPilaO(self.name)
+        PilaO.append(tablaMemoria.tbConst.get(self.name))
 
 class Const_float(Nodo):
     def __init__(self, name):
@@ -1735,8 +1686,7 @@ class Const_float(Nodo):
     def traducir(self):
         # CONST_FLOAT
         # REGLA
-        #PilaO.append(str(self.name))
-        pila.addPilaO(str(self.name))
+        PilaO.append(str(self.name))
 
 class Const_bool(Nodo):
     def __init__(self, name):
@@ -1745,8 +1695,7 @@ class Const_bool(Nodo):
     def traducir(self):
         # CONST_BOOL
         # REGLA
-        #PilaO.append(str(self.name))
-        pila.addPilaO(str(self.name))
+        PilaO.append(str(self.name))
 
 class Int(Nodo):
     def __init__(self,name):
@@ -1755,8 +1704,7 @@ class Int(Nodo):
     def traducir(self):
         # INT
         # REGLA
-        #Ptipos.append(str(self.name))
-        pila.addPtipos(str(self.name))
+        Ptipos.append(str(self.name))
 
 class Float(Nodo):
     def __init__(self,name):
@@ -1765,8 +1713,7 @@ class Float(Nodo):
     def traducir(self):
         # FLOAT
         # REGLA
-        #Ptipos.append(str(self.name))
-        pila.addPtipos(str(self.name))
+        Ptipos.append(str(self.name))
 
 class String(Nodo):
     def __init__(self,name):
@@ -1775,8 +1722,7 @@ class String(Nodo):
     def traducir(self):
         # STRING
         # REGLA
-        #Ptipos.append(str(self.name))
-        pila.addPtipos(str(self.name))
+        Ptipos.append(str(self.name))
 
 class Bool(Nodo):
     def __init__(self,name):
@@ -1785,8 +1731,7 @@ class Bool(Nodo):
     def traducir(self):
         # BOOL
         # REGLA
-        #Ptipos.append(str(self.name))
-        pila.addPtipos(str(self.name))
+        Ptipos.append(str(self.name))
 
 class Void(Nodo):
     def __init__(self,name):
@@ -1795,8 +1740,7 @@ class Void(Nodo):
     def traducir(self):
         # VOID
         # REGLA
-        #Ptipos.append(str(self.name))
-        pila.addPtipos(str(self.name))
+        Ptipos.append(str(self.name))
 
 class Assign(Nodo):
     def __init__(self, name):
@@ -1805,8 +1749,7 @@ class Assign(Nodo):
     def traducir(self):
         # ASSIGN
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Plus(Nodo):
     def __init__(self, name):
@@ -1815,8 +1758,7 @@ class Plus(Nodo):
     def traducir(self):
         # PLUS
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Minus(Nodo):
     def __init__(self, name):
@@ -1825,8 +1767,7 @@ class Minus(Nodo):
     def traducir(self):
         # MINUS
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Times(Nodo):
     def __init__(self, name):
@@ -1835,8 +1776,7 @@ class Times(Nodo):
     def traducir(self):
         # TIMES
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Divide(Nodo):
     def __init__(self, name):
@@ -1845,8 +1785,7 @@ class Divide(Nodo):
     def traducir(self):
         # DIVIDE
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Equals(Nodo):
     def __init__(self, name):
@@ -1855,8 +1794,7 @@ class Equals(Nodo):
     def traducir(self):
         # EQUALS
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Not_equals(Nodo):
     def __init__(self, name):
@@ -1865,8 +1803,7 @@ class Not_equals(Nodo):
     def traducir(self):
         # NOT_EQUALS
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Lt(Nodo):
     def __init__(self, name):
@@ -1875,8 +1812,7 @@ class Lt(Nodo):
     def traducir(self):
         # LT
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Gt(Nodo):
     def __init__(self, name):
@@ -1885,8 +1821,7 @@ class Gt(Nodo):
     def traducir(self):
         # GT
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Lte(Nodo):
     def __init__(self, name):
@@ -1895,8 +1830,7 @@ class Lte(Nodo):
     def traducir(self):
         # LTE
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Gte(Nodo):
     def __init__(self, name):
@@ -1905,8 +1839,7 @@ class Gte(Nodo):
     def traducir(self):
         # GTE
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Bool_and(Nodo):
     def __init__(self, name):
@@ -1915,8 +1848,7 @@ class Bool_and(Nodo):
     def traducir(self):
         # BOOL_AND
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Bool_or(Nodo):
     def __init__(self, name):
@@ -1925,8 +1857,7 @@ class Bool_or(Nodo):
     def traducir(self):
         # BOOL_OR
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
 class Bool_not(Nodo):
     def __init__(self, name):
@@ -1935,6 +1866,5 @@ class Bool_not(Nodo):
     def traducir(self):
         # BOOL_NOT
         # REGLA
-        #Poper.append(self.name)
-        pila.addPoper(self.name)
+        Poper.append(self.name)
 
