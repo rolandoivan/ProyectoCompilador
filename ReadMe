@@ -1,0 +1,133 @@
+Avance 1
+Analisador Lexico y sintactico del proyecto
+#Los elementos con * quiere decir que falta por implementar
+statment (Assignment, Conditions, Cycles*, Read, Write*)
+math expression (arithmetic, logical and relational. )
+modules(parameters* as well as local and global variables.)
+structured elements(Arrays (one and two dim), or, Lists, or..)*
+
+Lexical analysis
+
+Tokens
+Regex	Token
+“^”.*?”$”	CONST_STRING
+“==”	EQALS
+“!=”	NOT_EQUALS
+“<=”	LTE
+“>=”	GTE
+“<”	LT
+“>”	GT
+“||”	BOOL_OR
+“&&”	BOOL_AND
+“!”	BOOL_NOT
+“+”	PLUS
+“-”	MINUS
+“/”	DIVIDE
+“*”	TIMES
+“=”	ASSIGN
+“(”	LPARENTHESIS
+“)”	RPARENTHESIS
+“{”	LCURLY_BRACKET
+“}”	RCURLY_BRACKET
+“[”	LSQUARE_BRACKET
+“]”	RSQUARE_BRACKET
+“,”	COMMA
+“;”	SEMICOLON
+“:”	COLON
+“.”	DOT
+“if”	IF
+“elif”	ELIF
+“else”	ELSE
+“return”	RETURN
+“for”	FOR
+“while”	WHILE
+“class”	CLASS*
+“void”	VOID *
+“program”	PROGRAM
+“func”	FUNC *
+“var”	VAR
+“import”	IMPORT *
+“int”	INT
+“bool”	BOOL
+“float”	FLOAT
+“string”	STRING
+“print”	PRINT
+“input”	INPUT
+[\s\t\n\r]+	<new line/space>
+[0-9]+\.[0-9]+	CONST_FLOAT
+[0-9]+	CONST_INT
+[A-Za-z_][A-Za-z0-9_]*	ID
+
+Syntax análisis
+Grammar rules
+<arithmetic_op_l1> ::=PLUS
+		        | MINUS
+<arithmetic_op_l2> ::= TIMES
+        | DIVIDE 
+<relational_op_l1> ::= EQUALS
+		      | NOT_EQULAS
+<relational_op_l2> ::= LT
+		      | GT
+		      | LTE
+		      | GTE
+<logical_op_l1> ::= BOOL_OR
+<logical_op_l2> ::= BOOL_AND
+<logical_op_l3> ::= BOOL_NOT
+<type> ::= INT 
+| FLOAT 
+| BOOL 
+| STRING
+<const_var> ::= ID
+          | CONST_INT 
+       	          | CONST_FLOAT
+                        | CONST_BOOL *
+          | CONST_STRING
+<program> ::= <program_imports> * <program_block>  PROGRAM ID <block>
+<program_imports> ::= IMPORT LPARENTHESIS <imports> RPARENTHESIS ; *
+| empty
+<imports> ::= CONST_STRING|
+	           CONST_STRING COMMA <imports> ;
+<program_block>  ::= <function> <program_block>   *
+        | <vars> <program_block>   
+        | <class> <program_block>   *
+        | empty
+<block> ::= LCURLY_BRACKET <content_block> RCURLY_BRACKET
+<content_block> ::= <statment> <content_block>
+		        | empty
+<vars> ::= VAR <type> ID  <vars_n> SEMICOLON
+<vars_n> ::= COMMA ID <vars_n>
+        | empty
+<assignment> ::= ID ASSIGN <expression> SEMICOLON
+<condition> ::= ID LPARENTHESIS <expression> RPARENTHESIS <block> <condition_else>
+<condition_else> ::= ELIF LPARENTHESIS <expression> RPARENTHESIS <block> <condition_else>
+      | ELSE LPARENTHESIS <expression> RPARENTHESIS <block>
+      | empty
+<write_function> ::= PRINT LPARENTHESIS <write> RPARENTHESIS SEMICOLON
+<write> ::= <expression> COMMA <write>
+   | CTE_STRING COMMA <write>
+   | <expression>
+   | CTE_STRING
+<read_function> *
+<for_loop> *
+<while_loop> *
+
+<statment> ::= <vars>
+		| <assignment>
+		| <condition>
+		| <write_function>
+		| <read_function> *
+		| <for_loop> *
+		| <while_loop> *
+| ⟨function_call⟩ SEMICOLON *
+| RETURN <expression> SEMICOLON 
+| RETURN SEMICOLON
+<expression> ::= <exp>
+| <exp> <relational_op_l1> <exp>
+| <exp> < relational_op_l2> <exp>
+<exp> ::= <term>
+	| <term> <arithmetic_op_l1> <exp>
+<term> ::= <factor>
+	| <factor> <arithmetic_op_l2> <term>
+<factor> ::=  PRINT LPARENTHESIS <expression> RPARENTHESIS
+      | <arithmetic_op_l1> <var_cte>
+      | <const_var>

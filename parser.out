@@ -1,0 +1,3214 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> def_vars functions MAIN block
+Rule 2     functions -> DEF type_fun ID LPARENTHESIS param RPARENTHESIS block functions
+Rule 3     functions -> empty
+Rule 4     param -> type ID COMMA param
+Rule 5     param -> type ID
+Rule 6     param -> empty
+Rule 7     block -> LCURLY_BRACKET content_block RCURLY_BRACKET
+Rule 8     content_block -> statment content_block
+Rule 9     content_block -> empty
+Rule 10    statment -> def_vars
+Rule 11    statment -> assignment SEMICOLON
+Rule 12    statment -> condition
+Rule 13    statment -> while_loop
+Rule 14    statment -> for_loop
+Rule 15    statment -> function_call SEMICOLON
+Rule 16    statment -> write_function
+Rule 17    statment -> RETURN expression SEMICOLON
+Rule 18    statment -> RETURN SEMICOLON
+Rule 19    statment -> read_function
+Rule 20    def_vars -> VAR type vars_n SEMICOLON def_vars
+Rule 21    def_vars -> empty
+Rule 22    vars_n -> ID COMMA vars_n
+Rule 23    vars_n -> ID
+Rule 24    vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+Rule 25    vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+Rule 26    assignment -> var ASSIGN expression
+Rule 27    condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else
+Rule 28    condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else
+Rule 29    condition_else -> ELSE block
+Rule 30    condition_else -> empty
+Rule 31    while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block
+Rule 32    while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON
+Rule 33    for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block
+Rule 34    for_param1 -> assignment SEMICOLON
+Rule 35    for_param2 -> expression SEMICOLON
+Rule 36    for_param3 -> assignment
+Rule 37    function_call -> ID LPARENTHESIS fun_param RPARENTHESIS
+Rule 38    fun_param -> expression COMMA fun_param
+Rule 39    fun_param -> expression
+Rule 40    write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON
+Rule 41    write -> expression COMMA write
+Rule 42    write -> expression
+Rule 43    read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON
+Rule 44    read -> expression COMMA read
+Rule 45    read -> expression
+Rule 46    expression -> exp_or
+Rule 47    expression -> expression logical_or exp_or
+Rule 48    exp_or -> exp_and
+Rule 49    exp_or -> exp_or logical_and exp_and
+Rule 50    exp_and -> exp_not
+Rule 51    exp_and -> exp_and logical_not exp_not
+Rule 52    exp_not -> exp
+Rule 53    exp_not -> exp relational_l1 term
+Rule 54    exp_not -> exp relational_l2 term
+Rule 55    exp -> term
+Rule 56    exp -> term arithmetic_l1 exp
+Rule 57    term -> factor
+Rule 58    term -> factor arithmetic_l2 term
+Rule 59    factor -> LPARENTHESIS expression RPARENTHESIS
+Rule 60    factor -> const_var
+Rule 61    factor -> function_call
+Rule 62    factor -> var
+Rule 63    arithmetic_l1 -> PLUS
+Rule 64    arithmetic_l1 -> MINUS
+Rule 65    arithmetic_l2 -> TIMES
+Rule 66    arithmetic_l2 -> DIVIDE
+Rule 67    relational_l1 -> EQUALS
+Rule 68    relational_l1 -> NOT_EQUALS
+Rule 69    relational_l2 -> LT
+Rule 70    relational_l2 -> GT
+Rule 71    relational_l2 -> LTE
+Rule 72    relational_l2 -> GTE
+Rule 73    logical_or -> BOOL_OR
+Rule 74    logical_and -> BOOL_AND
+Rule 75    logical_not -> BOOL_NOT
+Rule 76    const_var -> CONST_INT
+Rule 77    const_var -> CONST_FLOAT
+Rule 78    const_var -> CONST_STRING
+Rule 79    var -> ID
+Rule 80    var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+Rule 81    var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+Rule 82    type -> INT
+Rule 83    type -> FLOAT
+Rule 84    type -> STRING
+Rule 85    type_fun -> type
+Rule 86    type_fun -> VOID
+Rule 87    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ASSIGN               : 26
+BOOL_AND             : 74
+BOOL_NOT             : 75
+BOOL_OR              : 73
+COMMA                : 4 22 38 41 44
+CONST_FLOAT          : 77
+CONST_INT            : 24 25 25 76
+CONST_STRING         : 78
+DEF                  : 2
+DIVIDE               : 66
+DO                   : 32
+ELIF                 : 28
+ELSE                 : 29
+EQUALS               : 67
+FLOAT                : 83
+FOR                  : 33
+GT                   : 70
+GTE                  : 72
+ID                   : 2 4 5 22 23 24 25 37 79 80 81
+IF                   : 27
+INT                  : 82
+LCURLY_BRACKET       : 7
+LPARENTHESIS         : 2 27 28 31 32 33 37 40 43 59
+LSQUARE_BRACKET      : 24 25 25 80 81 81
+LT                   : 69
+LTE                  : 71
+MAIN                 : 1
+MINUS                : 64
+NOT_EQUALS           : 68
+PLUS                 : 63
+PRINT                : 40
+RCURLY_BRACKET       : 7
+READ                 : 43
+RETURN               : 17 18
+RPARENTHESIS         : 2 27 28 31 32 33 37 40 43 59
+RSQUARE_BRACKET      : 24 25 25 80 81 81
+SEMICOLON            : 11 15 17 18 20 32 34 35 40 43
+STRING               : 84
+TIMES                : 65
+VAR                  : 20
+VOID                 : 86
+WHILE                : 31 32
+error                : 
+
+Nonterminals, with rules where they appear
+
+arithmetic_l1        : 56
+arithmetic_l2        : 58
+assignment           : 11 34 36
+block                : 1 2 27 28 29 31 32 33
+condition            : 12
+condition_else       : 27 28
+const_var            : 60
+content_block        : 7 8
+def_vars             : 1 10 20
+empty                : 3 6 9 21 30
+exp                  : 52 53 54 56
+exp_and              : 48 49 51
+exp_not              : 50 51
+exp_or               : 46 47 49
+expression           : 17 26 27 28 31 32 35 38 39 41 42 44 45 47 59 80 81 81
+factor               : 57 58
+for_loop             : 14
+for_param1           : 33
+for_param2           : 33
+for_param3           : 33
+fun_param            : 37 38
+function_call        : 15 61
+functions            : 1 2
+logical_and          : 49
+logical_not          : 51
+logical_or           : 47
+param                : 2 4
+program              : 0
+read                 : 43 44
+read_function        : 19
+relational_l1        : 53
+relational_l2        : 54
+statment             : 8
+term                 : 53 54 55 56 58
+type                 : 4 5 20 85
+type_fun             : 2
+var                  : 26 62
+vars_n               : 20 22
+while_loop           : 13
+write                : 40 41
+write_function       : 16
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . def_vars functions MAIN block
+    (20) def_vars -> . VAR type vars_n SEMICOLON def_vars
+    (21) def_vars -> . empty
+    (87) empty -> .
+
+    VAR             shift and go to state 3
+    DEF             reduce using rule 87 (empty -> .)
+    MAIN            reduce using rule 87 (empty -> .)
+
+    program                        shift and go to state 1
+    def_vars                       shift and go to state 2
+    empty                          shift and go to state 4
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> def_vars . functions MAIN block
+    (2) functions -> . DEF type_fun ID LPARENTHESIS param RPARENTHESIS block functions
+    (3) functions -> . empty
+    (87) empty -> .
+
+    DEF             shift and go to state 6
+    MAIN            reduce using rule 87 (empty -> .)
+
+    functions                      shift and go to state 5
+    empty                          shift and go to state 7
+
+state 3
+
+    (20) def_vars -> VAR . type vars_n SEMICOLON def_vars
+    (82) type -> . INT
+    (83) type -> . FLOAT
+    (84) type -> . STRING
+
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 11
+
+    type                           shift and go to state 8
+
+state 4
+
+    (21) def_vars -> empty .
+
+    DEF             reduce using rule 21 (def_vars -> empty .)
+    MAIN            reduce using rule 21 (def_vars -> empty .)
+    RETURN          reduce using rule 21 (def_vars -> empty .)
+    VAR             reduce using rule 21 (def_vars -> empty .)
+    IF              reduce using rule 21 (def_vars -> empty .)
+    WHILE           reduce using rule 21 (def_vars -> empty .)
+    DO              reduce using rule 21 (def_vars -> empty .)
+    FOR             reduce using rule 21 (def_vars -> empty .)
+    ID              reduce using rule 21 (def_vars -> empty .)
+    PRINT           reduce using rule 21 (def_vars -> empty .)
+    READ            reduce using rule 21 (def_vars -> empty .)
+    RCURLY_BRACKET  reduce using rule 21 (def_vars -> empty .)
+
+
+state 5
+
+    (1) program -> def_vars functions . MAIN block
+
+    MAIN            shift and go to state 12
+
+
+state 6
+
+    (2) functions -> DEF . type_fun ID LPARENTHESIS param RPARENTHESIS block functions
+    (85) type_fun -> . type
+    (86) type_fun -> . VOID
+    (82) type -> . INT
+    (83) type -> . FLOAT
+    (84) type -> . STRING
+
+    VOID            shift and go to state 15
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 11
+
+    type_fun                       shift and go to state 13
+    type                           shift and go to state 14
+
+state 7
+
+    (3) functions -> empty .
+
+    MAIN            reduce using rule 3 (functions -> empty .)
+
+
+state 8
+
+    (20) def_vars -> VAR type . vars_n SEMICOLON def_vars
+    (22) vars_n -> . ID COMMA vars_n
+    (23) vars_n -> . ID
+    (24) vars_n -> . ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+    (25) vars_n -> . ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    ID              shift and go to state 17
+
+    vars_n                         shift and go to state 16
+
+state 9
+
+    (82) type -> INT .
+
+    ID              reduce using rule 82 (type -> INT .)
+
+
+state 10
+
+    (83) type -> FLOAT .
+
+    ID              reduce using rule 83 (type -> FLOAT .)
+
+
+state 11
+
+    (84) type -> STRING .
+
+    ID              reduce using rule 84 (type -> STRING .)
+
+
+state 12
+
+    (1) program -> def_vars functions MAIN . block
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 18
+
+state 13
+
+    (2) functions -> DEF type_fun . ID LPARENTHESIS param RPARENTHESIS block functions
+
+    ID              shift and go to state 20
+
+
+state 14
+
+    (85) type_fun -> type .
+
+    ID              reduce using rule 85 (type_fun -> type .)
+
+
+state 15
+
+    (86) type_fun -> VOID .
+
+    ID              reduce using rule 86 (type_fun -> VOID .)
+
+
+state 16
+
+    (20) def_vars -> VAR type vars_n . SEMICOLON def_vars
+
+    SEMICOLON       shift and go to state 21
+
+
+state 17
+
+    (22) vars_n -> ID . COMMA vars_n
+    (23) vars_n -> ID .
+    (24) vars_n -> ID . LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+    (25) vars_n -> ID . LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    COMMA           shift and go to state 22
+    SEMICOLON       reduce using rule 23 (vars_n -> ID .)
+    LSQUARE_BRACKET shift and go to state 23
+
+
+state 18
+
+    (1) program -> def_vars functions MAIN block .
+
+    $end            reduce using rule 1 (program -> def_vars functions MAIN block .)
+
+
+state 19
+
+    (7) block -> LCURLY_BRACKET . content_block RCURLY_BRACKET
+    (8) content_block -> . statment content_block
+    (9) content_block -> . empty
+    (10) statment -> . def_vars
+    (11) statment -> . assignment SEMICOLON
+    (12) statment -> . condition
+    (13) statment -> . while_loop
+    (14) statment -> . for_loop
+    (15) statment -> . function_call SEMICOLON
+    (16) statment -> . write_function
+    (17) statment -> . RETURN expression SEMICOLON
+    (18) statment -> . RETURN SEMICOLON
+    (19) statment -> . read_function
+    (87) empty -> .
+    (20) def_vars -> . VAR type vars_n SEMICOLON def_vars
+    (21) def_vars -> . empty
+    (26) assignment -> . var ASSIGN expression
+    (27) condition -> . IF LPARENTHESIS expression RPARENTHESIS block condition_else
+    (31) while_loop -> . WHILE LPARENTHESIS expression RPARENTHESIS block
+    (32) while_loop -> . DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON
+    (33) for_loop -> . FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (40) write_function -> . PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON
+    (43) read_function -> . READ LPARENTHESIS read RPARENTHESIS SEMICOLON
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for VAR resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for DO resolved as shift
+  ! shift/reduce conflict for FOR resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for READ resolved as shift
+    RETURN          shift and go to state 34
+    RCURLY_BRACKET  reduce using rule 87 (empty -> .)
+    VAR             shift and go to state 3
+    IF              shift and go to state 37
+    WHILE           shift and go to state 38
+    DO              shift and go to state 39
+    FOR             shift and go to state 40
+    ID              shift and go to state 41
+    PRINT           shift and go to state 42
+    READ            shift and go to state 43
+
+  ! RETURN          [ reduce using rule 87 (empty -> .) ]
+  ! VAR             [ reduce using rule 87 (empty -> .) ]
+  ! IF              [ reduce using rule 87 (empty -> .) ]
+  ! WHILE           [ reduce using rule 87 (empty -> .) ]
+  ! DO              [ reduce using rule 87 (empty -> .) ]
+  ! FOR             [ reduce using rule 87 (empty -> .) ]
+  ! ID              [ reduce using rule 87 (empty -> .) ]
+  ! PRINT           [ reduce using rule 87 (empty -> .) ]
+  ! READ            [ reduce using rule 87 (empty -> .) ]
+
+    content_block                  shift and go to state 24
+    statment                       shift and go to state 25
+    empty                          shift and go to state 26
+    def_vars                       shift and go to state 27
+    assignment                     shift and go to state 28
+    condition                      shift and go to state 29
+    while_loop                     shift and go to state 30
+    for_loop                       shift and go to state 31
+    function_call                  shift and go to state 32
+    write_function                 shift and go to state 33
+    read_function                  shift and go to state 35
+    var                            shift and go to state 36
+
+state 20
+
+    (2) functions -> DEF type_fun ID . LPARENTHESIS param RPARENTHESIS block functions
+
+    LPARENTHESIS    shift and go to state 44
+
+
+state 21
+
+    (20) def_vars -> VAR type vars_n SEMICOLON . def_vars
+    (20) def_vars -> . VAR type vars_n SEMICOLON def_vars
+    (21) def_vars -> . empty
+    (87) empty -> .
+
+  ! shift/reduce conflict for VAR resolved as shift
+    VAR             shift and go to state 3
+    DEF             reduce using rule 87 (empty -> .)
+    MAIN            reduce using rule 87 (empty -> .)
+    RETURN          reduce using rule 87 (empty -> .)
+    IF              reduce using rule 87 (empty -> .)
+    WHILE           reduce using rule 87 (empty -> .)
+    DO              reduce using rule 87 (empty -> .)
+    FOR             reduce using rule 87 (empty -> .)
+    ID              reduce using rule 87 (empty -> .)
+    PRINT           reduce using rule 87 (empty -> .)
+    READ            reduce using rule 87 (empty -> .)
+    RCURLY_BRACKET  reduce using rule 87 (empty -> .)
+
+  ! VAR             [ reduce using rule 87 (empty -> .) ]
+
+    def_vars                       shift and go to state 45
+    empty                          shift and go to state 4
+
+state 22
+
+    (22) vars_n -> ID COMMA . vars_n
+    (22) vars_n -> . ID COMMA vars_n
+    (23) vars_n -> . ID
+    (24) vars_n -> . ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+    (25) vars_n -> . ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    ID              shift and go to state 17
+
+    vars_n                         shift and go to state 46
+
+state 23
+
+    (24) vars_n -> ID LSQUARE_BRACKET . CONST_INT RSQUARE_BRACKET
+    (25) vars_n -> ID LSQUARE_BRACKET . CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    CONST_INT       shift and go to state 47
+
+
+state 24
+
+    (7) block -> LCURLY_BRACKET content_block . RCURLY_BRACKET
+
+    RCURLY_BRACKET  shift and go to state 48
+
+
+state 25
+
+    (8) content_block -> statment . content_block
+    (8) content_block -> . statment content_block
+    (9) content_block -> . empty
+    (10) statment -> . def_vars
+    (11) statment -> . assignment SEMICOLON
+    (12) statment -> . condition
+    (13) statment -> . while_loop
+    (14) statment -> . for_loop
+    (15) statment -> . function_call SEMICOLON
+    (16) statment -> . write_function
+    (17) statment -> . RETURN expression SEMICOLON
+    (18) statment -> . RETURN SEMICOLON
+    (19) statment -> . read_function
+    (87) empty -> .
+    (20) def_vars -> . VAR type vars_n SEMICOLON def_vars
+    (21) def_vars -> . empty
+    (26) assignment -> . var ASSIGN expression
+    (27) condition -> . IF LPARENTHESIS expression RPARENTHESIS block condition_else
+    (31) while_loop -> . WHILE LPARENTHESIS expression RPARENTHESIS block
+    (32) while_loop -> . DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON
+    (33) for_loop -> . FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (40) write_function -> . PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON
+    (43) read_function -> . READ LPARENTHESIS read RPARENTHESIS SEMICOLON
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for VAR resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for DO resolved as shift
+  ! shift/reduce conflict for FOR resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for READ resolved as shift
+    RETURN          shift and go to state 34
+    RCURLY_BRACKET  reduce using rule 87 (empty -> .)
+    VAR             shift and go to state 3
+    IF              shift and go to state 37
+    WHILE           shift and go to state 38
+    DO              shift and go to state 39
+    FOR             shift and go to state 40
+    ID              shift and go to state 41
+    PRINT           shift and go to state 42
+    READ            shift and go to state 43
+
+  ! RETURN          [ reduce using rule 87 (empty -> .) ]
+  ! VAR             [ reduce using rule 87 (empty -> .) ]
+  ! IF              [ reduce using rule 87 (empty -> .) ]
+  ! WHILE           [ reduce using rule 87 (empty -> .) ]
+  ! DO              [ reduce using rule 87 (empty -> .) ]
+  ! FOR             [ reduce using rule 87 (empty -> .) ]
+  ! ID              [ reduce using rule 87 (empty -> .) ]
+  ! PRINT           [ reduce using rule 87 (empty -> .) ]
+  ! READ            [ reduce using rule 87 (empty -> .) ]
+
+    statment                       shift and go to state 25
+    content_block                  shift and go to state 49
+    empty                          shift and go to state 26
+    def_vars                       shift and go to state 27
+    assignment                     shift and go to state 28
+    condition                      shift and go to state 29
+    while_loop                     shift and go to state 30
+    for_loop                       shift and go to state 31
+    function_call                  shift and go to state 32
+    write_function                 shift and go to state 33
+    read_function                  shift and go to state 35
+    var                            shift and go to state 36
+
+state 26
+
+    (9) content_block -> empty .
+    (21) def_vars -> empty .
+
+  ! reduce/reduce conflict for RCURLY_BRACKET resolved using rule 9 (content_block -> empty .)
+    RCURLY_BRACKET  reduce using rule 9 (content_block -> empty .)
+    RETURN          reduce using rule 21 (def_vars -> empty .)
+    VAR             reduce using rule 21 (def_vars -> empty .)
+    IF              reduce using rule 21 (def_vars -> empty .)
+    WHILE           reduce using rule 21 (def_vars -> empty .)
+    DO              reduce using rule 21 (def_vars -> empty .)
+    FOR             reduce using rule 21 (def_vars -> empty .)
+    ID              reduce using rule 21 (def_vars -> empty .)
+    PRINT           reduce using rule 21 (def_vars -> empty .)
+    READ            reduce using rule 21 (def_vars -> empty .)
+
+  ! RCURLY_BRACKET  [ reduce using rule 21 (def_vars -> empty .) ]
+
+
+state 27
+
+    (10) statment -> def_vars .
+
+    RETURN          reduce using rule 10 (statment -> def_vars .)
+    VAR             reduce using rule 10 (statment -> def_vars .)
+    IF              reduce using rule 10 (statment -> def_vars .)
+    WHILE           reduce using rule 10 (statment -> def_vars .)
+    DO              reduce using rule 10 (statment -> def_vars .)
+    FOR             reduce using rule 10 (statment -> def_vars .)
+    ID              reduce using rule 10 (statment -> def_vars .)
+    PRINT           reduce using rule 10 (statment -> def_vars .)
+    READ            reduce using rule 10 (statment -> def_vars .)
+    RCURLY_BRACKET  reduce using rule 10 (statment -> def_vars .)
+
+
+state 28
+
+    (11) statment -> assignment . SEMICOLON
+
+    SEMICOLON       shift and go to state 50
+
+
+state 29
+
+    (12) statment -> condition .
+
+    RETURN          reduce using rule 12 (statment -> condition .)
+    VAR             reduce using rule 12 (statment -> condition .)
+    IF              reduce using rule 12 (statment -> condition .)
+    WHILE           reduce using rule 12 (statment -> condition .)
+    DO              reduce using rule 12 (statment -> condition .)
+    FOR             reduce using rule 12 (statment -> condition .)
+    ID              reduce using rule 12 (statment -> condition .)
+    PRINT           reduce using rule 12 (statment -> condition .)
+    READ            reduce using rule 12 (statment -> condition .)
+    RCURLY_BRACKET  reduce using rule 12 (statment -> condition .)
+
+
+state 30
+
+    (13) statment -> while_loop .
+
+    RETURN          reduce using rule 13 (statment -> while_loop .)
+    VAR             reduce using rule 13 (statment -> while_loop .)
+    IF              reduce using rule 13 (statment -> while_loop .)
+    WHILE           reduce using rule 13 (statment -> while_loop .)
+    DO              reduce using rule 13 (statment -> while_loop .)
+    FOR             reduce using rule 13 (statment -> while_loop .)
+    ID              reduce using rule 13 (statment -> while_loop .)
+    PRINT           reduce using rule 13 (statment -> while_loop .)
+    READ            reduce using rule 13 (statment -> while_loop .)
+    RCURLY_BRACKET  reduce using rule 13 (statment -> while_loop .)
+
+
+state 31
+
+    (14) statment -> for_loop .
+
+    RETURN          reduce using rule 14 (statment -> for_loop .)
+    VAR             reduce using rule 14 (statment -> for_loop .)
+    IF              reduce using rule 14 (statment -> for_loop .)
+    WHILE           reduce using rule 14 (statment -> for_loop .)
+    DO              reduce using rule 14 (statment -> for_loop .)
+    FOR             reduce using rule 14 (statment -> for_loop .)
+    ID              reduce using rule 14 (statment -> for_loop .)
+    PRINT           reduce using rule 14 (statment -> for_loop .)
+    READ            reduce using rule 14 (statment -> for_loop .)
+    RCURLY_BRACKET  reduce using rule 14 (statment -> for_loop .)
+
+
+state 32
+
+    (15) statment -> function_call . SEMICOLON
+
+    SEMICOLON       shift and go to state 51
+
+
+state 33
+
+    (16) statment -> write_function .
+
+    RETURN          reduce using rule 16 (statment -> write_function .)
+    VAR             reduce using rule 16 (statment -> write_function .)
+    IF              reduce using rule 16 (statment -> write_function .)
+    WHILE           reduce using rule 16 (statment -> write_function .)
+    DO              reduce using rule 16 (statment -> write_function .)
+    FOR             reduce using rule 16 (statment -> write_function .)
+    ID              reduce using rule 16 (statment -> write_function .)
+    PRINT           reduce using rule 16 (statment -> write_function .)
+    READ            reduce using rule 16 (statment -> write_function .)
+    RCURLY_BRACKET  reduce using rule 16 (statment -> write_function .)
+
+
+state 34
+
+    (17) statment -> RETURN . expression SEMICOLON
+    (18) statment -> RETURN . SEMICOLON
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    SEMICOLON       shift and go to state 53
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 52
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 35
+
+    (19) statment -> read_function .
+
+    RETURN          reduce using rule 19 (statment -> read_function .)
+    VAR             reduce using rule 19 (statment -> read_function .)
+    IF              reduce using rule 19 (statment -> read_function .)
+    WHILE           reduce using rule 19 (statment -> read_function .)
+    DO              reduce using rule 19 (statment -> read_function .)
+    FOR             reduce using rule 19 (statment -> read_function .)
+    ID              reduce using rule 19 (statment -> read_function .)
+    PRINT           reduce using rule 19 (statment -> read_function .)
+    READ            reduce using rule 19 (statment -> read_function .)
+    RCURLY_BRACKET  reduce using rule 19 (statment -> read_function .)
+
+
+state 36
+
+    (26) assignment -> var . ASSIGN expression
+
+    ASSIGN          shift and go to state 67
+
+
+state 37
+
+    (27) condition -> IF . LPARENTHESIS expression RPARENTHESIS block condition_else
+
+    LPARENTHESIS    shift and go to state 68
+
+
+state 38
+
+    (31) while_loop -> WHILE . LPARENTHESIS expression RPARENTHESIS block
+
+    LPARENTHESIS    shift and go to state 69
+
+
+state 39
+
+    (32) while_loop -> DO . block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 70
+
+state 40
+
+    (33) for_loop -> FOR . LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block
+
+    LPARENTHESIS    shift and go to state 71
+
+
+state 41
+
+    (37) function_call -> ID . LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> ID .
+    (80) var -> ID . LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> ID . LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 72
+    ASSIGN          reduce using rule 79 (var -> ID .)
+    TIMES           reduce using rule 79 (var -> ID .)
+    DIVIDE          reduce using rule 79 (var -> ID .)
+    PLUS            reduce using rule 79 (var -> ID .)
+    MINUS           reduce using rule 79 (var -> ID .)
+    EQUALS          reduce using rule 79 (var -> ID .)
+    NOT_EQUALS      reduce using rule 79 (var -> ID .)
+    LT              reduce using rule 79 (var -> ID .)
+    GT              reduce using rule 79 (var -> ID .)
+    LTE             reduce using rule 79 (var -> ID .)
+    GTE             reduce using rule 79 (var -> ID .)
+    BOOL_NOT        reduce using rule 79 (var -> ID .)
+    BOOL_AND        reduce using rule 79 (var -> ID .)
+    SEMICOLON       reduce using rule 79 (var -> ID .)
+    BOOL_OR         reduce using rule 79 (var -> ID .)
+    RPARENTHESIS    reduce using rule 79 (var -> ID .)
+    COMMA           reduce using rule 79 (var -> ID .)
+    RSQUARE_BRACKET reduce using rule 79 (var -> ID .)
+    LSQUARE_BRACKET shift and go to state 73
+
+
+state 42
+
+    (40) write_function -> PRINT . LPARENTHESIS write RPARENTHESIS SEMICOLON
+
+    LPARENTHESIS    shift and go to state 74
+
+
+state 43
+
+    (43) read_function -> READ . LPARENTHESIS read RPARENTHESIS SEMICOLON
+
+    LPARENTHESIS    shift and go to state 75
+
+
+state 44
+
+    (2) functions -> DEF type_fun ID LPARENTHESIS . param RPARENTHESIS block functions
+    (4) param -> . type ID COMMA param
+    (5) param -> . type ID
+    (6) param -> . empty
+    (82) type -> . INT
+    (83) type -> . FLOAT
+    (84) type -> . STRING
+    (87) empty -> .
+
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 11
+    RPARENTHESIS    reduce using rule 87 (empty -> .)
+
+    param                          shift and go to state 76
+    type                           shift and go to state 77
+    empty                          shift and go to state 78
+
+state 45
+
+    (20) def_vars -> VAR type vars_n SEMICOLON def_vars .
+
+    DEF             reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    MAIN            reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    RETURN          reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    VAR             reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    IF              reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    WHILE           reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    DO              reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    FOR             reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    ID              reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    PRINT           reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    READ            reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+    RCURLY_BRACKET  reduce using rule 20 (def_vars -> VAR type vars_n SEMICOLON def_vars .)
+
+
+state 46
+
+    (22) vars_n -> ID COMMA vars_n .
+
+    SEMICOLON       reduce using rule 22 (vars_n -> ID COMMA vars_n .)
+
+
+state 47
+
+    (24) vars_n -> ID LSQUARE_BRACKET CONST_INT . RSQUARE_BRACKET
+    (25) vars_n -> ID LSQUARE_BRACKET CONST_INT . RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    RSQUARE_BRACKET shift and go to state 79
+
+
+state 48
+
+    (7) block -> LCURLY_BRACKET content_block RCURLY_BRACKET .
+
+    $end            reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    WHILE           reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    DEF             reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    MAIN            reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    ELIF            reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    ELSE            reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    RETURN          reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    VAR             reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    IF              reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    DO              reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    FOR             reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    ID              reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    PRINT           reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    READ            reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+    RCURLY_BRACKET  reduce using rule 7 (block -> LCURLY_BRACKET content_block RCURLY_BRACKET .)
+
+
+state 49
+
+    (8) content_block -> statment content_block .
+
+    RCURLY_BRACKET  reduce using rule 8 (content_block -> statment content_block .)
+
+
+state 50
+
+    (11) statment -> assignment SEMICOLON .
+
+    RETURN          reduce using rule 11 (statment -> assignment SEMICOLON .)
+    VAR             reduce using rule 11 (statment -> assignment SEMICOLON .)
+    IF              reduce using rule 11 (statment -> assignment SEMICOLON .)
+    WHILE           reduce using rule 11 (statment -> assignment SEMICOLON .)
+    DO              reduce using rule 11 (statment -> assignment SEMICOLON .)
+    FOR             reduce using rule 11 (statment -> assignment SEMICOLON .)
+    ID              reduce using rule 11 (statment -> assignment SEMICOLON .)
+    PRINT           reduce using rule 11 (statment -> assignment SEMICOLON .)
+    READ            reduce using rule 11 (statment -> assignment SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 11 (statment -> assignment SEMICOLON .)
+
+
+state 51
+
+    (15) statment -> function_call SEMICOLON .
+
+    RETURN          reduce using rule 15 (statment -> function_call SEMICOLON .)
+    VAR             reduce using rule 15 (statment -> function_call SEMICOLON .)
+    IF              reduce using rule 15 (statment -> function_call SEMICOLON .)
+    WHILE           reduce using rule 15 (statment -> function_call SEMICOLON .)
+    DO              reduce using rule 15 (statment -> function_call SEMICOLON .)
+    FOR             reduce using rule 15 (statment -> function_call SEMICOLON .)
+    ID              reduce using rule 15 (statment -> function_call SEMICOLON .)
+    PRINT           reduce using rule 15 (statment -> function_call SEMICOLON .)
+    READ            reduce using rule 15 (statment -> function_call SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 15 (statment -> function_call SEMICOLON .)
+
+
+state 52
+
+    (17) statment -> RETURN expression . SEMICOLON
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    SEMICOLON       shift and go to state 80
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 53
+
+    (18) statment -> RETURN SEMICOLON .
+
+    RETURN          reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    VAR             reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    IF              reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    WHILE           reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    DO              reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    FOR             reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    ID              reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    PRINT           reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    READ            reduce using rule 18 (statment -> RETURN SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 18 (statment -> RETURN SEMICOLON .)
+
+
+state 54
+
+    (46) expression -> exp_or .
+    (49) exp_or -> exp_or . logical_and exp_and
+    (74) logical_and -> . BOOL_AND
+
+    SEMICOLON       reduce using rule 46 (expression -> exp_or .)
+    BOOL_OR         reduce using rule 46 (expression -> exp_or .)
+    RPARENTHESIS    reduce using rule 46 (expression -> exp_or .)
+    COMMA           reduce using rule 46 (expression -> exp_or .)
+    RSQUARE_BRACKET reduce using rule 46 (expression -> exp_or .)
+    BOOL_AND        shift and go to state 84
+
+    logical_and                    shift and go to state 83
+
+state 55
+
+    (48) exp_or -> exp_and .
+    (51) exp_and -> exp_and . logical_not exp_not
+    (75) logical_not -> . BOOL_NOT
+
+    BOOL_AND        reduce using rule 48 (exp_or -> exp_and .)
+    SEMICOLON       reduce using rule 48 (exp_or -> exp_and .)
+    BOOL_OR         reduce using rule 48 (exp_or -> exp_and .)
+    RPARENTHESIS    reduce using rule 48 (exp_or -> exp_and .)
+    COMMA           reduce using rule 48 (exp_or -> exp_and .)
+    RSQUARE_BRACKET reduce using rule 48 (exp_or -> exp_and .)
+    BOOL_NOT        shift and go to state 86
+
+    logical_not                    shift and go to state 85
+
+state 56
+
+    (50) exp_and -> exp_not .
+
+    BOOL_NOT        reduce using rule 50 (exp_and -> exp_not .)
+    BOOL_AND        reduce using rule 50 (exp_and -> exp_not .)
+    SEMICOLON       reduce using rule 50 (exp_and -> exp_not .)
+    BOOL_OR         reduce using rule 50 (exp_and -> exp_not .)
+    RPARENTHESIS    reduce using rule 50 (exp_and -> exp_not .)
+    COMMA           reduce using rule 50 (exp_and -> exp_not .)
+    RSQUARE_BRACKET reduce using rule 50 (exp_and -> exp_not .)
+
+
+state 57
+
+    (52) exp_not -> exp .
+    (53) exp_not -> exp . relational_l1 term
+    (54) exp_not -> exp . relational_l2 term
+    (67) relational_l1 -> . EQUALS
+    (68) relational_l1 -> . NOT_EQUALS
+    (69) relational_l2 -> . LT
+    (70) relational_l2 -> . GT
+    (71) relational_l2 -> . LTE
+    (72) relational_l2 -> . GTE
+
+    BOOL_NOT        reduce using rule 52 (exp_not -> exp .)
+    BOOL_AND        reduce using rule 52 (exp_not -> exp .)
+    SEMICOLON       reduce using rule 52 (exp_not -> exp .)
+    BOOL_OR         reduce using rule 52 (exp_not -> exp .)
+    RPARENTHESIS    reduce using rule 52 (exp_not -> exp .)
+    COMMA           reduce using rule 52 (exp_not -> exp .)
+    RSQUARE_BRACKET reduce using rule 52 (exp_not -> exp .)
+    EQUALS          shift and go to state 89
+    NOT_EQUALS      shift and go to state 90
+    LT              shift and go to state 91
+    GT              shift and go to state 92
+    LTE             shift and go to state 93
+    GTE             shift and go to state 94
+
+    relational_l1                  shift and go to state 87
+    relational_l2                  shift and go to state 88
+
+state 58
+
+    (55) exp -> term .
+    (56) exp -> term . arithmetic_l1 exp
+    (63) arithmetic_l1 -> . PLUS
+    (64) arithmetic_l1 -> . MINUS
+
+    EQUALS          reduce using rule 55 (exp -> term .)
+    NOT_EQUALS      reduce using rule 55 (exp -> term .)
+    LT              reduce using rule 55 (exp -> term .)
+    GT              reduce using rule 55 (exp -> term .)
+    LTE             reduce using rule 55 (exp -> term .)
+    GTE             reduce using rule 55 (exp -> term .)
+    BOOL_NOT        reduce using rule 55 (exp -> term .)
+    BOOL_AND        reduce using rule 55 (exp -> term .)
+    SEMICOLON       reduce using rule 55 (exp -> term .)
+    BOOL_OR         reduce using rule 55 (exp -> term .)
+    RPARENTHESIS    reduce using rule 55 (exp -> term .)
+    COMMA           reduce using rule 55 (exp -> term .)
+    RSQUARE_BRACKET reduce using rule 55 (exp -> term .)
+    PLUS            shift and go to state 96
+    MINUS           shift and go to state 97
+
+    arithmetic_l1                  shift and go to state 95
+
+state 59
+
+    (57) term -> factor .
+    (58) term -> factor . arithmetic_l2 term
+    (65) arithmetic_l2 -> . TIMES
+    (66) arithmetic_l2 -> . DIVIDE
+
+    PLUS            reduce using rule 57 (term -> factor .)
+    MINUS           reduce using rule 57 (term -> factor .)
+    EQUALS          reduce using rule 57 (term -> factor .)
+    NOT_EQUALS      reduce using rule 57 (term -> factor .)
+    LT              reduce using rule 57 (term -> factor .)
+    GT              reduce using rule 57 (term -> factor .)
+    LTE             reduce using rule 57 (term -> factor .)
+    GTE             reduce using rule 57 (term -> factor .)
+    BOOL_NOT        reduce using rule 57 (term -> factor .)
+    BOOL_AND        reduce using rule 57 (term -> factor .)
+    SEMICOLON       reduce using rule 57 (term -> factor .)
+    BOOL_OR         reduce using rule 57 (term -> factor .)
+    RPARENTHESIS    reduce using rule 57 (term -> factor .)
+    COMMA           reduce using rule 57 (term -> factor .)
+    RSQUARE_BRACKET reduce using rule 57 (term -> factor .)
+    TIMES           shift and go to state 99
+    DIVIDE          shift and go to state 100
+
+    arithmetic_l2                  shift and go to state 98
+
+state 60
+
+    (59) factor -> LPARENTHESIS . expression RPARENTHESIS
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 101
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 61
+
+    (60) factor -> const_var .
+
+    TIMES           reduce using rule 60 (factor -> const_var .)
+    DIVIDE          reduce using rule 60 (factor -> const_var .)
+    PLUS            reduce using rule 60 (factor -> const_var .)
+    MINUS           reduce using rule 60 (factor -> const_var .)
+    EQUALS          reduce using rule 60 (factor -> const_var .)
+    NOT_EQUALS      reduce using rule 60 (factor -> const_var .)
+    LT              reduce using rule 60 (factor -> const_var .)
+    GT              reduce using rule 60 (factor -> const_var .)
+    LTE             reduce using rule 60 (factor -> const_var .)
+    GTE             reduce using rule 60 (factor -> const_var .)
+    BOOL_NOT        reduce using rule 60 (factor -> const_var .)
+    BOOL_AND        reduce using rule 60 (factor -> const_var .)
+    SEMICOLON       reduce using rule 60 (factor -> const_var .)
+    BOOL_OR         reduce using rule 60 (factor -> const_var .)
+    RPARENTHESIS    reduce using rule 60 (factor -> const_var .)
+    COMMA           reduce using rule 60 (factor -> const_var .)
+    RSQUARE_BRACKET reduce using rule 60 (factor -> const_var .)
+
+
+state 62
+
+    (61) factor -> function_call .
+
+    TIMES           reduce using rule 61 (factor -> function_call .)
+    DIVIDE          reduce using rule 61 (factor -> function_call .)
+    PLUS            reduce using rule 61 (factor -> function_call .)
+    MINUS           reduce using rule 61 (factor -> function_call .)
+    EQUALS          reduce using rule 61 (factor -> function_call .)
+    NOT_EQUALS      reduce using rule 61 (factor -> function_call .)
+    LT              reduce using rule 61 (factor -> function_call .)
+    GT              reduce using rule 61 (factor -> function_call .)
+    LTE             reduce using rule 61 (factor -> function_call .)
+    GTE             reduce using rule 61 (factor -> function_call .)
+    BOOL_NOT        reduce using rule 61 (factor -> function_call .)
+    BOOL_AND        reduce using rule 61 (factor -> function_call .)
+    SEMICOLON       reduce using rule 61 (factor -> function_call .)
+    BOOL_OR         reduce using rule 61 (factor -> function_call .)
+    RPARENTHESIS    reduce using rule 61 (factor -> function_call .)
+    COMMA           reduce using rule 61 (factor -> function_call .)
+    RSQUARE_BRACKET reduce using rule 61 (factor -> function_call .)
+
+
+state 63
+
+    (62) factor -> var .
+
+    TIMES           reduce using rule 62 (factor -> var .)
+    DIVIDE          reduce using rule 62 (factor -> var .)
+    PLUS            reduce using rule 62 (factor -> var .)
+    MINUS           reduce using rule 62 (factor -> var .)
+    EQUALS          reduce using rule 62 (factor -> var .)
+    NOT_EQUALS      reduce using rule 62 (factor -> var .)
+    LT              reduce using rule 62 (factor -> var .)
+    GT              reduce using rule 62 (factor -> var .)
+    LTE             reduce using rule 62 (factor -> var .)
+    GTE             reduce using rule 62 (factor -> var .)
+    BOOL_NOT        reduce using rule 62 (factor -> var .)
+    BOOL_AND        reduce using rule 62 (factor -> var .)
+    SEMICOLON       reduce using rule 62 (factor -> var .)
+    BOOL_OR         reduce using rule 62 (factor -> var .)
+    RPARENTHESIS    reduce using rule 62 (factor -> var .)
+    COMMA           reduce using rule 62 (factor -> var .)
+    RSQUARE_BRACKET reduce using rule 62 (factor -> var .)
+
+
+state 64
+
+    (76) const_var -> CONST_INT .
+
+    TIMES           reduce using rule 76 (const_var -> CONST_INT .)
+    DIVIDE          reduce using rule 76 (const_var -> CONST_INT .)
+    PLUS            reduce using rule 76 (const_var -> CONST_INT .)
+    MINUS           reduce using rule 76 (const_var -> CONST_INT .)
+    EQUALS          reduce using rule 76 (const_var -> CONST_INT .)
+    NOT_EQUALS      reduce using rule 76 (const_var -> CONST_INT .)
+    LT              reduce using rule 76 (const_var -> CONST_INT .)
+    GT              reduce using rule 76 (const_var -> CONST_INT .)
+    LTE             reduce using rule 76 (const_var -> CONST_INT .)
+    GTE             reduce using rule 76 (const_var -> CONST_INT .)
+    BOOL_NOT        reduce using rule 76 (const_var -> CONST_INT .)
+    BOOL_AND        reduce using rule 76 (const_var -> CONST_INT .)
+    SEMICOLON       reduce using rule 76 (const_var -> CONST_INT .)
+    BOOL_OR         reduce using rule 76 (const_var -> CONST_INT .)
+    RPARENTHESIS    reduce using rule 76 (const_var -> CONST_INT .)
+    COMMA           reduce using rule 76 (const_var -> CONST_INT .)
+    RSQUARE_BRACKET reduce using rule 76 (const_var -> CONST_INT .)
+
+
+state 65
+
+    (77) const_var -> CONST_FLOAT .
+
+    TIMES           reduce using rule 77 (const_var -> CONST_FLOAT .)
+    DIVIDE          reduce using rule 77 (const_var -> CONST_FLOAT .)
+    PLUS            reduce using rule 77 (const_var -> CONST_FLOAT .)
+    MINUS           reduce using rule 77 (const_var -> CONST_FLOAT .)
+    EQUALS          reduce using rule 77 (const_var -> CONST_FLOAT .)
+    NOT_EQUALS      reduce using rule 77 (const_var -> CONST_FLOAT .)
+    LT              reduce using rule 77 (const_var -> CONST_FLOAT .)
+    GT              reduce using rule 77 (const_var -> CONST_FLOAT .)
+    LTE             reduce using rule 77 (const_var -> CONST_FLOAT .)
+    GTE             reduce using rule 77 (const_var -> CONST_FLOAT .)
+    BOOL_NOT        reduce using rule 77 (const_var -> CONST_FLOAT .)
+    BOOL_AND        reduce using rule 77 (const_var -> CONST_FLOAT .)
+    SEMICOLON       reduce using rule 77 (const_var -> CONST_FLOAT .)
+    BOOL_OR         reduce using rule 77 (const_var -> CONST_FLOAT .)
+    RPARENTHESIS    reduce using rule 77 (const_var -> CONST_FLOAT .)
+    COMMA           reduce using rule 77 (const_var -> CONST_FLOAT .)
+    RSQUARE_BRACKET reduce using rule 77 (const_var -> CONST_FLOAT .)
+
+
+state 66
+
+    (78) const_var -> CONST_STRING .
+
+    TIMES           reduce using rule 78 (const_var -> CONST_STRING .)
+    DIVIDE          reduce using rule 78 (const_var -> CONST_STRING .)
+    PLUS            reduce using rule 78 (const_var -> CONST_STRING .)
+    MINUS           reduce using rule 78 (const_var -> CONST_STRING .)
+    EQUALS          reduce using rule 78 (const_var -> CONST_STRING .)
+    NOT_EQUALS      reduce using rule 78 (const_var -> CONST_STRING .)
+    LT              reduce using rule 78 (const_var -> CONST_STRING .)
+    GT              reduce using rule 78 (const_var -> CONST_STRING .)
+    LTE             reduce using rule 78 (const_var -> CONST_STRING .)
+    GTE             reduce using rule 78 (const_var -> CONST_STRING .)
+    BOOL_NOT        reduce using rule 78 (const_var -> CONST_STRING .)
+    BOOL_AND        reduce using rule 78 (const_var -> CONST_STRING .)
+    SEMICOLON       reduce using rule 78 (const_var -> CONST_STRING .)
+    BOOL_OR         reduce using rule 78 (const_var -> CONST_STRING .)
+    RPARENTHESIS    reduce using rule 78 (const_var -> CONST_STRING .)
+    COMMA           reduce using rule 78 (const_var -> CONST_STRING .)
+    RSQUARE_BRACKET reduce using rule 78 (const_var -> CONST_STRING .)
+
+
+state 67
+
+    (26) assignment -> var ASSIGN . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    var                            shift and go to state 63
+    expression                     shift and go to state 102
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+
+state 68
+
+    (27) condition -> IF LPARENTHESIS . expression RPARENTHESIS block condition_else
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 103
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 69
+
+    (31) while_loop -> WHILE LPARENTHESIS . expression RPARENTHESIS block
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 104
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 70
+
+    (32) while_loop -> DO block . WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON
+
+    WHILE           shift and go to state 105
+
+
+state 71
+
+    (33) for_loop -> FOR LPARENTHESIS . for_param1 for_param2 for_param3 RPARENTHESIS block
+    (34) for_param1 -> . assignment SEMICOLON
+    (26) assignment -> . var ASSIGN expression
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    ID              shift and go to state 108
+
+    for_param1                     shift and go to state 106
+    assignment                     shift and go to state 107
+    var                            shift and go to state 36
+
+state 72
+
+    (37) function_call -> ID LPARENTHESIS . fun_param RPARENTHESIS
+    (38) fun_param -> . expression COMMA fun_param
+    (39) fun_param -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    fun_param                      shift and go to state 109
+    expression                     shift and go to state 110
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 73
+
+    (80) var -> ID LSQUARE_BRACKET . expression RSQUARE_BRACKET
+    (81) var -> ID LSQUARE_BRACKET . expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 111
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 74
+
+    (40) write_function -> PRINT LPARENTHESIS . write RPARENTHESIS SEMICOLON
+    (41) write -> . expression COMMA write
+    (42) write -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    write                          shift and go to state 112
+    expression                     shift and go to state 113
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 75
+
+    (43) read_function -> READ LPARENTHESIS . read RPARENTHESIS SEMICOLON
+    (44) read -> . expression COMMA read
+    (45) read -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    read                           shift and go to state 114
+    expression                     shift and go to state 115
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 76
+
+    (2) functions -> DEF type_fun ID LPARENTHESIS param . RPARENTHESIS block functions
+
+    RPARENTHESIS    shift and go to state 116
+
+
+state 77
+
+    (4) param -> type . ID COMMA param
+    (5) param -> type . ID
+
+    ID              shift and go to state 117
+
+
+state 78
+
+    (6) param -> empty .
+
+    RPARENTHESIS    reduce using rule 6 (param -> empty .)
+
+
+state 79
+
+    (24) vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET .
+    (25) vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET . LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET
+
+    SEMICOLON       reduce using rule 24 (vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET .)
+    LSQUARE_BRACKET shift and go to state 118
+
+
+state 80
+
+    (17) statment -> RETURN expression SEMICOLON .
+
+    RETURN          reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    VAR             reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    IF              reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    WHILE           reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    DO              reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    FOR             reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    ID              reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    PRINT           reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    READ            reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 17 (statment -> RETURN expression SEMICOLON .)
+
+
+state 81
+
+    (47) expression -> expression logical_or . exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    exp_or                         shift and go to state 119
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 82
+
+    (73) logical_or -> BOOL_OR .
+
+    LPARENTHESIS    reduce using rule 73 (logical_or -> BOOL_OR .)
+    CONST_INT       reduce using rule 73 (logical_or -> BOOL_OR .)
+    CONST_FLOAT     reduce using rule 73 (logical_or -> BOOL_OR .)
+    CONST_STRING    reduce using rule 73 (logical_or -> BOOL_OR .)
+    ID              reduce using rule 73 (logical_or -> BOOL_OR .)
+
+
+state 83
+
+    (49) exp_or -> exp_or logical_and . exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    exp_and                        shift and go to state 120
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 84
+
+    (74) logical_and -> BOOL_AND .
+
+    LPARENTHESIS    reduce using rule 74 (logical_and -> BOOL_AND .)
+    CONST_INT       reduce using rule 74 (logical_and -> BOOL_AND .)
+    CONST_FLOAT     reduce using rule 74 (logical_and -> BOOL_AND .)
+    CONST_STRING    reduce using rule 74 (logical_and -> BOOL_AND .)
+    ID              reduce using rule 74 (logical_and -> BOOL_AND .)
+
+
+state 85
+
+    (51) exp_and -> exp_and logical_not . exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    exp_not                        shift and go to state 121
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 86
+
+    (75) logical_not -> BOOL_NOT .
+
+    LPARENTHESIS    reduce using rule 75 (logical_not -> BOOL_NOT .)
+    CONST_INT       reduce using rule 75 (logical_not -> BOOL_NOT .)
+    CONST_FLOAT     reduce using rule 75 (logical_not -> BOOL_NOT .)
+    CONST_STRING    reduce using rule 75 (logical_not -> BOOL_NOT .)
+    ID              reduce using rule 75 (logical_not -> BOOL_NOT .)
+
+
+state 87
+
+    (53) exp_not -> exp relational_l1 . term
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    term                           shift and go to state 122
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 88
+
+    (54) exp_not -> exp relational_l2 . term
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    term                           shift and go to state 123
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 89
+
+    (67) relational_l1 -> EQUALS .
+
+    LPARENTHESIS    reduce using rule 67 (relational_l1 -> EQUALS .)
+    CONST_INT       reduce using rule 67 (relational_l1 -> EQUALS .)
+    CONST_FLOAT     reduce using rule 67 (relational_l1 -> EQUALS .)
+    CONST_STRING    reduce using rule 67 (relational_l1 -> EQUALS .)
+    ID              reduce using rule 67 (relational_l1 -> EQUALS .)
+
+
+state 90
+
+    (68) relational_l1 -> NOT_EQUALS .
+
+    LPARENTHESIS    reduce using rule 68 (relational_l1 -> NOT_EQUALS .)
+    CONST_INT       reduce using rule 68 (relational_l1 -> NOT_EQUALS .)
+    CONST_FLOAT     reduce using rule 68 (relational_l1 -> NOT_EQUALS .)
+    CONST_STRING    reduce using rule 68 (relational_l1 -> NOT_EQUALS .)
+    ID              reduce using rule 68 (relational_l1 -> NOT_EQUALS .)
+
+
+state 91
+
+    (69) relational_l2 -> LT .
+
+    LPARENTHESIS    reduce using rule 69 (relational_l2 -> LT .)
+    CONST_INT       reduce using rule 69 (relational_l2 -> LT .)
+    CONST_FLOAT     reduce using rule 69 (relational_l2 -> LT .)
+    CONST_STRING    reduce using rule 69 (relational_l2 -> LT .)
+    ID              reduce using rule 69 (relational_l2 -> LT .)
+
+
+state 92
+
+    (70) relational_l2 -> GT .
+
+    LPARENTHESIS    reduce using rule 70 (relational_l2 -> GT .)
+    CONST_INT       reduce using rule 70 (relational_l2 -> GT .)
+    CONST_FLOAT     reduce using rule 70 (relational_l2 -> GT .)
+    CONST_STRING    reduce using rule 70 (relational_l2 -> GT .)
+    ID              reduce using rule 70 (relational_l2 -> GT .)
+
+
+state 93
+
+    (71) relational_l2 -> LTE .
+
+    LPARENTHESIS    reduce using rule 71 (relational_l2 -> LTE .)
+    CONST_INT       reduce using rule 71 (relational_l2 -> LTE .)
+    CONST_FLOAT     reduce using rule 71 (relational_l2 -> LTE .)
+    CONST_STRING    reduce using rule 71 (relational_l2 -> LTE .)
+    ID              reduce using rule 71 (relational_l2 -> LTE .)
+
+
+state 94
+
+    (72) relational_l2 -> GTE .
+
+    LPARENTHESIS    reduce using rule 72 (relational_l2 -> GTE .)
+    CONST_INT       reduce using rule 72 (relational_l2 -> GTE .)
+    CONST_FLOAT     reduce using rule 72 (relational_l2 -> GTE .)
+    CONST_STRING    reduce using rule 72 (relational_l2 -> GTE .)
+    ID              reduce using rule 72 (relational_l2 -> GTE .)
+
+
+state 95
+
+    (56) exp -> term arithmetic_l1 . exp
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    term                           shift and go to state 58
+    exp                            shift and go to state 124
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 96
+
+    (63) arithmetic_l1 -> PLUS .
+
+    LPARENTHESIS    reduce using rule 63 (arithmetic_l1 -> PLUS .)
+    CONST_INT       reduce using rule 63 (arithmetic_l1 -> PLUS .)
+    CONST_FLOAT     reduce using rule 63 (arithmetic_l1 -> PLUS .)
+    CONST_STRING    reduce using rule 63 (arithmetic_l1 -> PLUS .)
+    ID              reduce using rule 63 (arithmetic_l1 -> PLUS .)
+
+
+state 97
+
+    (64) arithmetic_l1 -> MINUS .
+
+    LPARENTHESIS    reduce using rule 64 (arithmetic_l1 -> MINUS .)
+    CONST_INT       reduce using rule 64 (arithmetic_l1 -> MINUS .)
+    CONST_FLOAT     reduce using rule 64 (arithmetic_l1 -> MINUS .)
+    CONST_STRING    reduce using rule 64 (arithmetic_l1 -> MINUS .)
+    ID              reduce using rule 64 (arithmetic_l1 -> MINUS .)
+
+
+state 98
+
+    (58) term -> factor arithmetic_l2 . term
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    factor                         shift and go to state 59
+    term                           shift and go to state 125
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 99
+
+    (65) arithmetic_l2 -> TIMES .
+
+    LPARENTHESIS    reduce using rule 65 (arithmetic_l2 -> TIMES .)
+    CONST_INT       reduce using rule 65 (arithmetic_l2 -> TIMES .)
+    CONST_FLOAT     reduce using rule 65 (arithmetic_l2 -> TIMES .)
+    CONST_STRING    reduce using rule 65 (arithmetic_l2 -> TIMES .)
+    ID              reduce using rule 65 (arithmetic_l2 -> TIMES .)
+
+
+state 100
+
+    (66) arithmetic_l2 -> DIVIDE .
+
+    LPARENTHESIS    reduce using rule 66 (arithmetic_l2 -> DIVIDE .)
+    CONST_INT       reduce using rule 66 (arithmetic_l2 -> DIVIDE .)
+    CONST_FLOAT     reduce using rule 66 (arithmetic_l2 -> DIVIDE .)
+    CONST_STRING    reduce using rule 66 (arithmetic_l2 -> DIVIDE .)
+    ID              reduce using rule 66 (arithmetic_l2 -> DIVIDE .)
+
+
+state 101
+
+    (59) factor -> LPARENTHESIS expression . RPARENTHESIS
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RPARENTHESIS    shift and go to state 126
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 102
+
+    (26) assignment -> var ASSIGN expression .
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    SEMICOLON       reduce using rule 26 (assignment -> var ASSIGN expression .)
+    RPARENTHESIS    reduce using rule 26 (assignment -> var ASSIGN expression .)
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 103
+
+    (27) condition -> IF LPARENTHESIS expression . RPARENTHESIS block condition_else
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RPARENTHESIS    shift and go to state 127
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 104
+
+    (31) while_loop -> WHILE LPARENTHESIS expression . RPARENTHESIS block
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RPARENTHESIS    shift and go to state 128
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 105
+
+    (32) while_loop -> DO block WHILE . LPARENTHESIS expression RPARENTHESIS SEMICOLON
+
+    LPARENTHESIS    shift and go to state 129
+
+
+state 106
+
+    (33) for_loop -> FOR LPARENTHESIS for_param1 . for_param2 for_param3 RPARENTHESIS block
+    (35) for_param2 -> . expression SEMICOLON
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    for_param2                     shift and go to state 130
+    expression                     shift and go to state 131
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 107
+
+    (34) for_param1 -> assignment . SEMICOLON
+
+    SEMICOLON       shift and go to state 132
+
+
+state 108
+
+    (79) var -> ID .
+    (80) var -> ID . LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> ID . LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    ASSIGN          reduce using rule 79 (var -> ID .)
+    LSQUARE_BRACKET shift and go to state 73
+
+
+state 109
+
+    (37) function_call -> ID LPARENTHESIS fun_param . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 133
+
+
+state 110
+
+    (38) fun_param -> expression . COMMA fun_param
+    (39) fun_param -> expression .
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    COMMA           shift and go to state 134
+    RPARENTHESIS    reduce using rule 39 (fun_param -> expression .)
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 111
+
+    (80) var -> ID LSQUARE_BRACKET expression . RSQUARE_BRACKET
+    (81) var -> ID LSQUARE_BRACKET expression . RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RSQUARE_BRACKET shift and go to state 135
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 112
+
+    (40) write_function -> PRINT LPARENTHESIS write . RPARENTHESIS SEMICOLON
+
+    RPARENTHESIS    shift and go to state 136
+
+
+state 113
+
+    (41) write -> expression . COMMA write
+    (42) write -> expression .
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    COMMA           shift and go to state 137
+    RPARENTHESIS    reduce using rule 42 (write -> expression .)
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 114
+
+    (43) read_function -> READ LPARENTHESIS read . RPARENTHESIS SEMICOLON
+
+    RPARENTHESIS    shift and go to state 138
+
+
+state 115
+
+    (44) read -> expression . COMMA read
+    (45) read -> expression .
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    COMMA           shift and go to state 139
+    RPARENTHESIS    reduce using rule 45 (read -> expression .)
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 116
+
+    (2) functions -> DEF type_fun ID LPARENTHESIS param RPARENTHESIS . block functions
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 140
+
+state 117
+
+    (4) param -> type ID . COMMA param
+    (5) param -> type ID .
+
+    COMMA           shift and go to state 141
+    RPARENTHESIS    reduce using rule 5 (param -> type ID .)
+
+
+state 118
+
+    (25) vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET . CONST_INT RSQUARE_BRACKET
+
+    CONST_INT       shift and go to state 142
+
+
+state 119
+
+    (47) expression -> expression logical_or exp_or .
+    (49) exp_or -> exp_or . logical_and exp_and
+    (74) logical_and -> . BOOL_AND
+
+    SEMICOLON       reduce using rule 47 (expression -> expression logical_or exp_or .)
+    BOOL_OR         reduce using rule 47 (expression -> expression logical_or exp_or .)
+    RPARENTHESIS    reduce using rule 47 (expression -> expression logical_or exp_or .)
+    COMMA           reduce using rule 47 (expression -> expression logical_or exp_or .)
+    RSQUARE_BRACKET reduce using rule 47 (expression -> expression logical_or exp_or .)
+    BOOL_AND        shift and go to state 84
+
+    logical_and                    shift and go to state 83
+
+state 120
+
+    (49) exp_or -> exp_or logical_and exp_and .
+    (51) exp_and -> exp_and . logical_not exp_not
+    (75) logical_not -> . BOOL_NOT
+
+    BOOL_AND        reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    SEMICOLON       reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    BOOL_OR         reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    RPARENTHESIS    reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    COMMA           reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    RSQUARE_BRACKET reduce using rule 49 (exp_or -> exp_or logical_and exp_and .)
+    BOOL_NOT        shift and go to state 86
+
+    logical_not                    shift and go to state 85
+
+state 121
+
+    (51) exp_and -> exp_and logical_not exp_not .
+
+    BOOL_NOT        reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    BOOL_AND        reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    SEMICOLON       reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    BOOL_OR         reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    RPARENTHESIS    reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    COMMA           reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+    RSQUARE_BRACKET reduce using rule 51 (exp_and -> exp_and logical_not exp_not .)
+
+
+state 122
+
+    (53) exp_not -> exp relational_l1 term .
+
+    BOOL_NOT        reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    BOOL_AND        reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    SEMICOLON       reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    BOOL_OR         reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    RPARENTHESIS    reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    COMMA           reduce using rule 53 (exp_not -> exp relational_l1 term .)
+    RSQUARE_BRACKET reduce using rule 53 (exp_not -> exp relational_l1 term .)
+
+
+state 123
+
+    (54) exp_not -> exp relational_l2 term .
+
+    BOOL_NOT        reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    BOOL_AND        reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    SEMICOLON       reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    BOOL_OR         reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    RPARENTHESIS    reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    COMMA           reduce using rule 54 (exp_not -> exp relational_l2 term .)
+    RSQUARE_BRACKET reduce using rule 54 (exp_not -> exp relational_l2 term .)
+
+
+state 124
+
+    (56) exp -> term arithmetic_l1 exp .
+
+    EQUALS          reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    NOT_EQUALS      reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    LT              reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    GT              reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    LTE             reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    GTE             reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    BOOL_NOT        reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    BOOL_AND        reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    SEMICOLON       reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    BOOL_OR         reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    RPARENTHESIS    reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    COMMA           reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+    RSQUARE_BRACKET reduce using rule 56 (exp -> term arithmetic_l1 exp .)
+
+
+state 125
+
+    (58) term -> factor arithmetic_l2 term .
+
+    PLUS            reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    MINUS           reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    EQUALS          reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    NOT_EQUALS      reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    LT              reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    GT              reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    LTE             reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    GTE             reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    BOOL_NOT        reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    BOOL_AND        reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    SEMICOLON       reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    BOOL_OR         reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    RPARENTHESIS    reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    COMMA           reduce using rule 58 (term -> factor arithmetic_l2 term .)
+    RSQUARE_BRACKET reduce using rule 58 (term -> factor arithmetic_l2 term .)
+
+
+state 126
+
+    (59) factor -> LPARENTHESIS expression RPARENTHESIS .
+
+    TIMES           reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    DIVIDE          reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    PLUS            reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    MINUS           reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    EQUALS          reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    NOT_EQUALS      reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    LT              reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    GT              reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    LTE             reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    GTE             reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    BOOL_NOT        reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    BOOL_AND        reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    SEMICOLON       reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    BOOL_OR         reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    COMMA           reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+    RSQUARE_BRACKET reduce using rule 59 (factor -> LPARENTHESIS expression RPARENTHESIS .)
+
+
+state 127
+
+    (27) condition -> IF LPARENTHESIS expression RPARENTHESIS . block condition_else
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 143
+
+state 128
+
+    (31) while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS . block
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 144
+
+state 129
+
+    (32) while_loop -> DO block WHILE LPARENTHESIS . expression RPARENTHESIS SEMICOLON
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 145
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 130
+
+    (33) for_loop -> FOR LPARENTHESIS for_param1 for_param2 . for_param3 RPARENTHESIS block
+    (36) for_param3 -> . assignment
+    (26) assignment -> . var ASSIGN expression
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    ID              shift and go to state 108
+
+    for_param3                     shift and go to state 146
+    assignment                     shift and go to state 147
+    var                            shift and go to state 36
+
+state 131
+
+    (35) for_param2 -> expression . SEMICOLON
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    SEMICOLON       shift and go to state 148
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 132
+
+    (34) for_param1 -> assignment SEMICOLON .
+
+    LPARENTHESIS    reduce using rule 34 (for_param1 -> assignment SEMICOLON .)
+    CONST_INT       reduce using rule 34 (for_param1 -> assignment SEMICOLON .)
+    CONST_FLOAT     reduce using rule 34 (for_param1 -> assignment SEMICOLON .)
+    CONST_STRING    reduce using rule 34 (for_param1 -> assignment SEMICOLON .)
+    ID              reduce using rule 34 (for_param1 -> assignment SEMICOLON .)
+
+
+state 133
+
+    (37) function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .
+
+    SEMICOLON       reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    TIMES           reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    DIVIDE          reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    PLUS            reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    MINUS           reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    EQUALS          reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    NOT_EQUALS      reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    LT              reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    GT              reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    LTE             reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    GTE             reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    BOOL_NOT        reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    BOOL_AND        reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    BOOL_OR         reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    COMMA           reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+    RSQUARE_BRACKET reduce using rule 37 (function_call -> ID LPARENTHESIS fun_param RPARENTHESIS .)
+
+
+state 134
+
+    (38) fun_param -> expression COMMA . fun_param
+    (38) fun_param -> . expression COMMA fun_param
+    (39) fun_param -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 110
+    fun_param                      shift and go to state 149
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 135
+
+    (80) var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .
+    (81) var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET . LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    ASSIGN          reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    TIMES           reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    DIVIDE          reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    PLUS            reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    MINUS           reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    EQUALS          reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    NOT_EQUALS      reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    LT              reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    GT              reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    LTE             reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    GTE             reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_NOT        reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_AND        reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    SEMICOLON       reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_OR         reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    RPARENTHESIS    reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    COMMA           reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    RSQUARE_BRACKET reduce using rule 80 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    LSQUARE_BRACKET shift and go to state 150
+
+
+state 136
+
+    (40) write_function -> PRINT LPARENTHESIS write RPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 151
+
+
+state 137
+
+    (41) write -> expression COMMA . write
+    (41) write -> . expression COMMA write
+    (42) write -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 113
+    write                          shift and go to state 152
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 138
+
+    (43) read_function -> READ LPARENTHESIS read RPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 153
+
+
+state 139
+
+    (44) read -> expression COMMA . read
+    (44) read -> . expression COMMA read
+    (45) read -> . expression
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 115
+    read                           shift and go to state 154
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 140
+
+    (2) functions -> DEF type_fun ID LPARENTHESIS param RPARENTHESIS block . functions
+    (2) functions -> . DEF type_fun ID LPARENTHESIS param RPARENTHESIS block functions
+    (3) functions -> . empty
+    (87) empty -> .
+
+    DEF             shift and go to state 6
+    MAIN            reduce using rule 87 (empty -> .)
+
+    functions                      shift and go to state 155
+    empty                          shift and go to state 7
+
+state 141
+
+    (4) param -> type ID COMMA . param
+    (4) param -> . type ID COMMA param
+    (5) param -> . type ID
+    (6) param -> . empty
+    (82) type -> . INT
+    (83) type -> . FLOAT
+    (84) type -> . STRING
+    (87) empty -> .
+
+    INT             shift and go to state 9
+    FLOAT           shift and go to state 10
+    STRING          shift and go to state 11
+    RPARENTHESIS    reduce using rule 87 (empty -> .)
+
+    type                           shift and go to state 77
+    param                          shift and go to state 156
+    empty                          shift and go to state 78
+
+state 142
+
+    (25) vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT . RSQUARE_BRACKET
+
+    RSQUARE_BRACKET shift and go to state 157
+
+
+state 143
+
+    (27) condition -> IF LPARENTHESIS expression RPARENTHESIS block . condition_else
+    (28) condition_else -> . ELIF LPARENTHESIS expression RPARENTHESIS block condition_else
+    (29) condition_else -> . ELSE block
+    (30) condition_else -> . empty
+    (87) empty -> .
+
+    ELIF            shift and go to state 159
+    ELSE            shift and go to state 160
+    RETURN          reduce using rule 87 (empty -> .)
+    VAR             reduce using rule 87 (empty -> .)
+    IF              reduce using rule 87 (empty -> .)
+    WHILE           reduce using rule 87 (empty -> .)
+    DO              reduce using rule 87 (empty -> .)
+    FOR             reduce using rule 87 (empty -> .)
+    ID              reduce using rule 87 (empty -> .)
+    PRINT           reduce using rule 87 (empty -> .)
+    READ            reduce using rule 87 (empty -> .)
+    RCURLY_BRACKET  reduce using rule 87 (empty -> .)
+
+    condition_else                 shift and go to state 158
+    empty                          shift and go to state 161
+
+state 144
+
+    (31) while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .
+
+    RETURN          reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    VAR             reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    IF              reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    WHILE           reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    DO              reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    FOR             reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    ID              reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    PRINT           reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    READ            reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+    RCURLY_BRACKET  reduce using rule 31 (while_loop -> WHILE LPARENTHESIS expression RPARENTHESIS block .)
+
+
+state 145
+
+    (32) while_loop -> DO block WHILE LPARENTHESIS expression . RPARENTHESIS SEMICOLON
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RPARENTHESIS    shift and go to state 162
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 146
+
+    (33) for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 . RPARENTHESIS block
+
+    RPARENTHESIS    shift and go to state 163
+
+
+state 147
+
+    (36) for_param3 -> assignment .
+
+    RPARENTHESIS    reduce using rule 36 (for_param3 -> assignment .)
+
+
+state 148
+
+    (35) for_param2 -> expression SEMICOLON .
+
+    ID              reduce using rule 35 (for_param2 -> expression SEMICOLON .)
+
+
+state 149
+
+    (38) fun_param -> expression COMMA fun_param .
+
+    RPARENTHESIS    reduce using rule 38 (fun_param -> expression COMMA fun_param .)
+
+
+state 150
+
+    (81) var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET . expression RSQUARE_BRACKET
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 164
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 151
+
+    (40) write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .
+
+    RETURN          reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    VAR             reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    WHILE           reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    DO              reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    FOR             reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    ID              reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    READ            reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 40 (write_function -> PRINT LPARENTHESIS write RPARENTHESIS SEMICOLON .)
+
+
+state 152
+
+    (41) write -> expression COMMA write .
+
+    RPARENTHESIS    reduce using rule 41 (write -> expression COMMA write .)
+
+
+state 153
+
+    (43) read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .
+
+    RETURN          reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    VAR             reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    WHILE           reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    DO              reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    FOR             reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    ID              reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    READ            reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 43 (read_function -> READ LPARENTHESIS read RPARENTHESIS SEMICOLON .)
+
+
+state 154
+
+    (44) read -> expression COMMA read .
+
+    RPARENTHESIS    reduce using rule 44 (read -> expression COMMA read .)
+
+
+state 155
+
+    (2) functions -> DEF type_fun ID LPARENTHESIS param RPARENTHESIS block functions .
+
+    MAIN            reduce using rule 2 (functions -> DEF type_fun ID LPARENTHESIS param RPARENTHESIS block functions .)
+
+
+state 156
+
+    (4) param -> type ID COMMA param .
+
+    RPARENTHESIS    reduce using rule 4 (param -> type ID COMMA param .)
+
+
+state 157
+
+    (25) vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET .
+
+    SEMICOLON       reduce using rule 25 (vars_n -> ID LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET LSQUARE_BRACKET CONST_INT RSQUARE_BRACKET .)
+
+
+state 158
+
+    (27) condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .
+
+    RETURN          reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    VAR             reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    IF              reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    WHILE           reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    DO              reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    FOR             reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    ID              reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    PRINT           reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    READ            reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    RCURLY_BRACKET  reduce using rule 27 (condition -> IF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+
+
+state 159
+
+    (28) condition_else -> ELIF . LPARENTHESIS expression RPARENTHESIS block condition_else
+
+    LPARENTHESIS    shift and go to state 165
+
+
+state 160
+
+    (29) condition_else -> ELSE . block
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 166
+
+state 161
+
+    (30) condition_else -> empty .
+
+    RETURN          reduce using rule 30 (condition_else -> empty .)
+    VAR             reduce using rule 30 (condition_else -> empty .)
+    IF              reduce using rule 30 (condition_else -> empty .)
+    WHILE           reduce using rule 30 (condition_else -> empty .)
+    DO              reduce using rule 30 (condition_else -> empty .)
+    FOR             reduce using rule 30 (condition_else -> empty .)
+    ID              reduce using rule 30 (condition_else -> empty .)
+    PRINT           reduce using rule 30 (condition_else -> empty .)
+    READ            reduce using rule 30 (condition_else -> empty .)
+    RCURLY_BRACKET  reduce using rule 30 (condition_else -> empty .)
+
+
+state 162
+
+    (32) while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 167
+
+
+state 163
+
+    (33) for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS . block
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 168
+
+state 164
+
+    (81) var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression . RSQUARE_BRACKET
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RSQUARE_BRACKET shift and go to state 169
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 165
+
+    (28) condition_else -> ELIF LPARENTHESIS . expression RPARENTHESIS block condition_else
+    (46) expression -> . exp_or
+    (47) expression -> . expression logical_or exp_or
+    (48) exp_or -> . exp_and
+    (49) exp_or -> . exp_or logical_and exp_and
+    (50) exp_and -> . exp_not
+    (51) exp_and -> . exp_and logical_not exp_not
+    (52) exp_not -> . exp
+    (53) exp_not -> . exp relational_l1 term
+    (54) exp_not -> . exp relational_l2 term
+    (55) exp -> . term
+    (56) exp -> . term arithmetic_l1 exp
+    (57) term -> . factor
+    (58) term -> . factor arithmetic_l2 term
+    (59) factor -> . LPARENTHESIS expression RPARENTHESIS
+    (60) factor -> . const_var
+    (61) factor -> . function_call
+    (62) factor -> . var
+    (76) const_var -> . CONST_INT
+    (77) const_var -> . CONST_FLOAT
+    (78) const_var -> . CONST_STRING
+    (37) function_call -> . ID LPARENTHESIS fun_param RPARENTHESIS
+    (79) var -> . ID
+    (80) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET
+    (81) var -> . ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET
+
+    LPARENTHESIS    shift and go to state 60
+    CONST_INT       shift and go to state 64
+    CONST_FLOAT     shift and go to state 65
+    CONST_STRING    shift and go to state 66
+    ID              shift and go to state 41
+
+    expression                     shift and go to state 170
+    exp_or                         shift and go to state 54
+    exp_and                        shift and go to state 55
+    exp_not                        shift and go to state 56
+    exp                            shift and go to state 57
+    term                           shift and go to state 58
+    factor                         shift and go to state 59
+    const_var                      shift and go to state 61
+    function_call                  shift and go to state 62
+    var                            shift and go to state 63
+
+state 166
+
+    (29) condition_else -> ELSE block .
+
+    RETURN          reduce using rule 29 (condition_else -> ELSE block .)
+    VAR             reduce using rule 29 (condition_else -> ELSE block .)
+    IF              reduce using rule 29 (condition_else -> ELSE block .)
+    WHILE           reduce using rule 29 (condition_else -> ELSE block .)
+    DO              reduce using rule 29 (condition_else -> ELSE block .)
+    FOR             reduce using rule 29 (condition_else -> ELSE block .)
+    ID              reduce using rule 29 (condition_else -> ELSE block .)
+    PRINT           reduce using rule 29 (condition_else -> ELSE block .)
+    READ            reduce using rule 29 (condition_else -> ELSE block .)
+    RCURLY_BRACKET  reduce using rule 29 (condition_else -> ELSE block .)
+
+
+state 167
+
+    (32) while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .
+
+    RETURN          reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    VAR             reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    WHILE           reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    DO              reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    FOR             reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    ID              reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    READ            reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+    RCURLY_BRACKET  reduce using rule 32 (while_loop -> DO block WHILE LPARENTHESIS expression RPARENTHESIS SEMICOLON .)
+
+
+state 168
+
+    (33) for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .
+
+    RETURN          reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    VAR             reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    IF              reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    WHILE           reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    DO              reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    FOR             reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    ID              reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    PRINT           reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    READ            reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+    RCURLY_BRACKET  reduce using rule 33 (for_loop -> FOR LPARENTHESIS for_param1 for_param2 for_param3 RPARENTHESIS block .)
+
+
+state 169
+
+    (81) var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .
+
+    ASSIGN          reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    TIMES           reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    DIVIDE          reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    PLUS            reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    MINUS           reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    EQUALS          reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    NOT_EQUALS      reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    LT              reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    GT              reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    LTE             reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    GTE             reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_NOT        reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_AND        reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    SEMICOLON       reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    BOOL_OR         reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    RPARENTHESIS    reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    COMMA           reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+    RSQUARE_BRACKET reduce using rule 81 (var -> ID LSQUARE_BRACKET expression RSQUARE_BRACKET LSQUARE_BRACKET expression RSQUARE_BRACKET .)
+
+
+state 170
+
+    (28) condition_else -> ELIF LPARENTHESIS expression . RPARENTHESIS block condition_else
+    (47) expression -> expression . logical_or exp_or
+    (73) logical_or -> . BOOL_OR
+
+    RPARENTHESIS    shift and go to state 171
+    BOOL_OR         shift and go to state 82
+
+    logical_or                     shift and go to state 81
+
+state 171
+
+    (28) condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS . block condition_else
+    (7) block -> . LCURLY_BRACKET content_block RCURLY_BRACKET
+
+    LCURLY_BRACKET  shift and go to state 19
+
+    block                          shift and go to state 172
+
+state 172
+
+    (28) condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block . condition_else
+    (28) condition_else -> . ELIF LPARENTHESIS expression RPARENTHESIS block condition_else
+    (29) condition_else -> . ELSE block
+    (30) condition_else -> . empty
+    (87) empty -> .
+
+    ELIF            shift and go to state 159
+    ELSE            shift and go to state 160
+    RETURN          reduce using rule 87 (empty -> .)
+    VAR             reduce using rule 87 (empty -> .)
+    IF              reduce using rule 87 (empty -> .)
+    WHILE           reduce using rule 87 (empty -> .)
+    DO              reduce using rule 87 (empty -> .)
+    FOR             reduce using rule 87 (empty -> .)
+    ID              reduce using rule 87 (empty -> .)
+    PRINT           reduce using rule 87 (empty -> .)
+    READ            reduce using rule 87 (empty -> .)
+    RCURLY_BRACKET  reduce using rule 87 (empty -> .)
+
+    condition_else                 shift and go to state 173
+    empty                          shift and go to state 161
+
+state 173
+
+    (28) condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .
+
+    RETURN          reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    VAR             reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    IF              reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    WHILE           reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    DO              reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    FOR             reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    ID              reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    PRINT           reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    READ            reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+    RCURLY_BRACKET  reduce using rule 28 (condition_else -> ELIF LPARENTHESIS expression RPARENTHESIS block condition_else .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for RETURN in state 19 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 19 resolved as shift
+WARNING: shift/reduce conflict for IF in state 19 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 19 resolved as shift
+WARNING: shift/reduce conflict for DO in state 19 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 19 resolved as shift
+WARNING: shift/reduce conflict for ID in state 19 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 19 resolved as shift
+WARNING: shift/reduce conflict for READ in state 19 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 21 resolved as shift
+WARNING: shift/reduce conflict for RETURN in state 25 resolved as shift
+WARNING: shift/reduce conflict for VAR in state 25 resolved as shift
+WARNING: shift/reduce conflict for IF in state 25 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 25 resolved as shift
+WARNING: shift/reduce conflict for DO in state 25 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 25 resolved as shift
+WARNING: shift/reduce conflict for ID in state 25 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 25 resolved as shift
+WARNING: shift/reduce conflict for READ in state 25 resolved as shift
+WARNING: reduce/reduce conflict in state 26 resolved using rule (content_block -> empty)
+WARNING: rejected rule (def_vars -> empty) in state 26
