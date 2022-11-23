@@ -6,11 +6,13 @@ class Cuadruplos:
 
     def cuad4(self, operador, operando1, operando2, resultado):
         self._counter += 1
-        self.cuadruplos.append(str(operador) + "\t" + str(operando1) + "\t" + str(operando2) + "\t" + str(resultado))
+        self.cuadruplos.append([operador , "\t" , operando1 , "\t" , operando2 , "\t" , resultado])
 
     def cuad3(self, operador, operando1, resultado):
         self._counter += 1
-        self.cuadruplos.append(str(operador) + "\t" + str(operando1) + "\t"  + str(resultado) + "\t")
-
+        self.cuadruplos.append([operador , "\t" , operando1 ,  "\t" , resultado])
+    def cuad2(self, operador, resultado):
+        self._counter += 1
+        self.cuadruplos.append([operador ,  "\t" , resultado])
     def getCont(cuadruplo):
         return cuadruplo._counter

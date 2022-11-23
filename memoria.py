@@ -12,10 +12,12 @@ class Memoria():
         # Tabla de variables globales
         self.tbVar = {}
         self.tbVarCont = 5000
+        self.tbVarMax = 0
 
         # Tabla de variables locales
         self.tbVarFun = {}
         self.tbVarFunCont = 8000
+        self.tbVarFunMax = 0
 
         # Tabla de temporales enteros
         self.tbTempI = {}
@@ -30,8 +32,8 @@ class Memoria():
         self.tbTempPCont = 21000
 
     # LLenar tablas
-    def addtbFun(self, nombre, inicio):
-        self.tbFun[nombre] = inicio
+    def addtbFun(self, nombre, inicio, fin):
+        self.tbFun[nombre] = [inicio, fin]
 
     def addtbConst(self, valor):
         self.tbConst[valor] = self.tbConstCont
@@ -59,11 +61,19 @@ class Memoria():
 
     # Reiniciar Temporales
     def reiniciarCont(self):
+        if self.tbVarFunMax < self.tbVarFunCont-8000:
+            self.tbVarFunMax = self.tbVarFunCont-8000
+        if self.tbVarMax < self.tbVarCont-5000:
+            self.tbVarMax = self.tbVarCont-5000
         self.tbVarFunCont = 8000
         self.tbTempICont = 13000
         self.tbTempBCont = 14000
         self.tbTempPCont = 21000
+        
         # Reiniciar diccionarios de temporales
+
+    def reiniciarContTbVarFun(self):
+        self.tbVarFunCont = 8000
 
     # Obtener Contadores
     def getContTbTempI(self):
@@ -74,3 +84,12 @@ class Memoria():
 
     def getContTbTempP(self):
         return self.tbTempPCont
+
+    def getContTbVarFun(self):
+        return self.tbVarFunCont
+
+    def getVarFunMax(self):
+        return self.tbVarFunMax
+
+    def getVarMax(self):
+        return self.tbVarMax
