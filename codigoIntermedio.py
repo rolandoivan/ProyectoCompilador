@@ -9,8 +9,7 @@ listaCuadruplos = Cuadruplos()
 Poper = []
 PilaO = []
 Ptipos = []
-Pmigas = []
-Psaltos = []
+Dsaltos = {}
 
 flag = 0
 flagtbVar = 0
@@ -54,7 +53,7 @@ def reiniciarParam():
     global parm
     parm = 0
 
-# Funciones para el manejo de direcciones Virtuales
+# Funcion para el manejo de direcciones Virtuales
 
 def dirVirtual(var):
     if var in tablaMemoria.tbVarFun :
@@ -64,7 +63,6 @@ def dirVirtual(var):
     elif var in tablaMemoria.tbConst:
         return tablaMemoria.tbConst.get(var)
     return var
-
 
 # ---------------------------------------------
 
@@ -94,7 +92,7 @@ class program(Nodo):
         # REGLA
         # CUADRUPLO DE INICIO
         listaCuadruplos.cuad3("Goto",'Main',0)
-        Pmigas.append(listaCuadruplos.getCont())
+        miga = listaCuadruplos.getCont()
         
         # DEF_VARS
         if type(self.son1) == type(tuple()):
@@ -112,7 +110,7 @@ class program(Nodo):
 
         # REGLA
         # PILA DE SALTOS
-        Psaltos.insert(0,listaCuadruplos.getCont())
+        Dsaltos[miga] = listaCuadruplos.getCont()+1
 
         # BLOCK
         if type(self.son3) == type(tuple()):
@@ -124,38 +122,27 @@ class program(Nodo):
         # CUADRUPLO DE FIN
         listaCuadruplos.cuad4("EndProc",0,0,0)
 
-        #print(len(tablaMemoria.tbFun),"Funciones")
-        print(len(tablaMemoria.tbConst),"Constantes")
-        print(tablaMemoria.tbConst)
-        print(tablaMemoria.getVarMax(),"Variables globales")
-        print(tablaMemoria.tbVar)
-        print(tablaMemoria.getVarFunMax(),"Variables locales")
-        print(tablaMemoria.tbVarFun)
-        print(len(tablaMemoria.tbTempI),"Temporales Int")
-        print(tablaMemoria.tbTempI)
-        print(len(tablaMemoria.tbTempB),"Temporales Bool")
-        print(tablaMemoria.tbTempB)
-        print(len(tablaMemoria.tbTempP),"Temporales Pointer")
-        print(tablaMemoria.tbTempP)
+
         for key in tablaMemoria.tbConst:
             variables += str(tablaMemoria.tbConst[key])+" "+str(key)+"\n"
-        # Escribir en archivo
+
+        # REGLA
+        # IMPRIMIR CUADRUPLOS Y TABLA DE MEMORIA
         varFile = open("variables.txt","w")
         varFile.write(variables)
         varFile.close()
 
-
-        # REGLA
-        # VACIAR PILA DE SALTOS y PILA DE MIGAS
-        aux = Pmigas.pop(0)
+        cont = 0
         for lista in listaCuadruplos.cuadruplos:
+            cont += 1
             for i in range(len(lista)):
                 txt = txt + str(lista[i])
-            if len(lista) == 5:
-                txt += "\t" + str(Psaltos.pop(0))
+            if cont in Dsaltos:
+                txt += "\t" + str(Dsaltos[cont])
             if lista[0] == 'GOSUB':
                 txt += "\t" + str(tablaMemoria.tbFun.get(lista[2])[0]) + "\t" + str(tablaMemoria.tbFun.get(lista[2])[1])
             txt = txt + "\n"
+        #print(Dsaltos)
         return txt
 
 # -------------------- FUNCTIONS --------------------
@@ -184,6 +171,7 @@ class functions(Nodo):
         # MEMORIA TABLA DE FUNCIONES
         fun = PilaO.pop()
         inicio = listaCuadruplos.getCont()+1
+        tablaMemoria.addtbVar(fun,Ptipos.pop(),1,1)
 
         reiniciarParam()
         tablaMemoria.reiniciarContTbVarFun()
@@ -196,17 +184,13 @@ class functions(Nodo):
 
         # BLOCK
         if type(self.son4) == type(tuple()):
-            son4 = self.son4[0].traducir()
+            self.son4[0].traducir()
         else:
             self.son4.traducir()
-
-        #print(tablaMemoria.tbVarFun)
 
         # REGLA
         # CUADRUPLO DE FIN DE FUNCION
         listaCuadruplos.cuad4("EndProc",0,0,0)
-        
-        #print(len(tablaMemoria.tbVarFun),"Variables locales")
         tablaMemoria.tbVarFun.clear()
         tablaMemoria.reiniciarCont()
         reiniciarTemp()
@@ -403,7 +387,7 @@ class statment8(Nodo):
 
         #REGLA
         # CUADRUPLO DE RETORNO CON EXPRESION
-        listaCuadruplos.cuad4("Ret",dirVirtual(PilaO.pop()), 0, 22000)
+        listaCuadruplos.cuad4("Ret",dirVirtual(PilaO.pop()), 0, 20000)
 
 class statment9(Nodo):
     pass
@@ -477,7 +461,7 @@ class vars_n2(Nodo):
             self.son1.traducir()
 
         # REGLA
-        # CUADRUPLO DE DECLARACION DE VARIABLE
+        # METER ID A TABLA DE VARIABLES
         tipo = Ptipos.pop()
         for i in range(len(PilaO)):
             if flagtbVar == 0:
@@ -503,7 +487,7 @@ class vars_n3(Nodo):
             self.son2.traducir()
         
         # REGLA
-        # CUADRUPLO DE DECLARACION DE ARREGLO
+        # METER ID,CONST_INT A TABLA DE VARIABLES
         if flagtbVar == 0:
             tablaMemoria.addtbVar(PilaO.pop(0), Ptipos.pop(0), PilaO.pop()+1, 1)
         else:
@@ -569,6 +553,7 @@ class assignment(Nodo):
         listaCuadruplos.cuad4(Poper.pop(),dirVirtual(PilaO.pop()),0,dirVirtual(PilaO.pop()))
 
 # --------------------------- CONDICION ---------------------------
+global migaif
 
 class condition(Nodo):
     def __init__(self, son1, son2, son3):
@@ -577,16 +562,17 @@ class condition(Nodo):
         self.son3 = son3
 
     def traducir(self):
+        global migaif
         # EXPRESSION
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
         else:
             son1 = self.son1.traducir()
 
-        #REGLA
+        # REGLA
         # CUADRUPLO DE GOTOF IF
         listaCuadruplos.cuad3("GotoF",PilaO.pop() ,0)
-        Pmigas.append(listaCuadruplos.getCont())
+        migaif = listaCuadruplos.getCont()
         
         # BLOCK
         if type(self.son2) == type(tuple()):
@@ -596,44 +582,9 @@ class condition(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTF IF
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        Dsaltos[migaif]=listaCuadruplos.getCont()+1
 
         # CONDITION_ESLE (SI EXISTE)
-        if type(self.son3) == type(tuple()):
-            self.son3[0].traducir()
-        else:
-            self.son3.traducir()
-
-class condition_else1(Nodo):
-    def __init__(self, son1, son2, son3):
-        self.son1 = son1
-        self.son2 = son2
-        self.son3 = son3
-
-    def traducir(self):
-
-        # EXPRESSION
-        if type(self.son1) == type(tuple()):
-            self.son1[0].traducir()
-        else:
-            self.son1.traducir()
-
-        # REGLA
-        # CUADRUPLO GOTOF ELIF
-        listaCuadruplos.cuad3("GotoF",PilaO.pop() ,0)
-        Pmigas.append(listaCuadruplos.getCont())
-
-        # BLOCK
-        if type(self.son2) == type(tuple()):
-            self.son2[0].traducir()
-        else:
-            self.son2.traducir()
-
-        # REGLA
-        # PILA DE SALTO GOTOF ELIF
-        Psaltos.append(listaCuadruplos.getCont()+1)
-        
-        # CONDITION_ESLE (RECURSIÓN)
         if type(self.son3) == type(tuple()):
             self.son3[0].traducir()
         else:
@@ -644,15 +595,12 @@ class condition_else2(Nodo):
         self.son1 = son1
 
     def traducir(self):
+        global migaif
         #REGLA
         # CUADRUPLO GOTO ELSE
-        Psaltos.pop()
         listaCuadruplos.cuad3("Goto",0,0)
-        Pmigas.append(listaCuadruplos.getCont())
-
-        # REGLA
-        # PILA DE SALTO GOTOF
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        Dsaltos[migaif]=listaCuadruplos.getCont()+1
+        miga = listaCuadruplos.getCont()
 
         # BLOCK
         if type(self.son1) == type(tuple()):
@@ -662,7 +610,7 @@ class condition_else2(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTO ELSE
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        Dsaltos[miga]=listaCuadruplos.getCont()+1
 
 # --------------------------- WHILE LOOP ---------------------------
 
@@ -674,7 +622,7 @@ class while_loop(Nodo):
     def traducir(self):
         # REGLA
         # PILA DE SALTO GOTO WHILE
-        Psaltos.append(listaCuadruplos.getCont())
+        aux = listaCuadruplos.getCont()+1
 
         # EXPRESSION
         if type(self.son1) == type(tuple()):
@@ -685,7 +633,7 @@ class while_loop(Nodo):
         # REGLA
         # CUADRUPLO GOTOF WHILE
         listaCuadruplos.cuad3("GotoF",PilaO.pop() ,0)
-        Pmigas.append(listaCuadruplos.getCont())
+        miga = listaCuadruplos.getCont()
 
         # BLOCK
         if type(self.son2) == type(tuple()):
@@ -695,11 +643,12 @@ class while_loop(Nodo):
 
         # REGLA
         # CUADRUPLO GOTO WHILE
-        listaCuadruplos.cuad4("Goto",0,0,Psaltos.pop())
+        listaCuadruplos.cuad3("Goto",0,0)
+        Dsaltos[listaCuadruplos.getCont()]=aux
         
         # REGLA
         # PILA DE SALTO GOTOF WHILE
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        Dsaltos[miga]=listaCuadruplos.getCont()+1
 
 
 
@@ -714,7 +663,7 @@ class do_while_loop(Nodo):
 
         # REGLA
         # PILA DE SALTO GOTO
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        aux = listaCuadruplos.getCont()+1
 
         # BLOCK
         if type(self.son1) == type(tuple()):
@@ -730,7 +679,8 @@ class do_while_loop(Nodo):
 
         # REGLA
         # CUADRUPLO GOTOV DO WHILE
-        listaCuadruplos.cuad4("GotoV",dirVirtual(PilaO.pop()),0,Psaltos.pop())
+        listaCuadruplos.cuad3("GotoV",dirVirtual(PilaO.pop()),0)
+        Dsaltos[listaCuadruplos.getCont()]=aux
 
 # --------------------------- FOR LOOP ---------------------------
 
@@ -749,14 +699,26 @@ class for_loop(Nodo):
             self.son1.traducir()
 
         # REGLA
-        # PILA DE SALTO GOTO
-        Psaltos.append(listaCuadruplos.getCont())
+        # PILA DE SALTO GOTO FOR
+        aux = listaCuadruplos.getCont()+1
 
         # FOR PARAM2
         if type(self.son2) == type(tuple()):
             self.son2[0].traducir()
         else:
             self.son2.traducir()
+
+        # REGLA
+        # CUADRUPLO GOTOF FOR 2
+        listaCuadruplos.cuad3("GotoF",PilaO.pop() ,0)
+        miga = listaCuadruplos.getCont()
+
+        # REGLA
+        # CUADRUPLO GOTO FOR
+        listaCuadruplos.cuad3("Goto",0,0)
+        miga2 = listaCuadruplos.getCont()
+        aux2 = listaCuadruplos.getCont()+1
+
         # FOR PARAM3
         if type(self.son3) == type(tuple()):
             self.son3[0].traducir()
@@ -764,9 +726,13 @@ class for_loop(Nodo):
             self.son3.traducir()
 
         # REGLA
-        # CUADRUPLO GOTOF FOR
-        listaCuadruplos.cuad3("GotoF", PilaO.pop() ,0)
-        Pmigas.append(listaCuadruplos.getCont())
+        # CUADRUPLO GOTO FOR
+        listaCuadruplos.cuad3("Goto",0,0)
+        Dsaltos[listaCuadruplos.getCont()]=aux
+
+        # REGLA
+        # PILA DE SALTO GOTO FOR
+        Dsaltos[miga2]=listaCuadruplos.getCont()+1
 
         # BLOCK
         if type(self.son4) == type(tuple()):
@@ -776,12 +742,14 @@ class for_loop(Nodo):
 
         # REGLA
         # CUADRUPLO GOTO FOR
-        listaCuadruplos.cuad4("Goto",0,0,Psaltos.pop())
+        listaCuadruplos.cuad3("Goto",0,0)
+        Dsaltos[listaCuadruplos.getCont()]=aux2
         
         # REGLA
         # PILA DE SALTO GOTOF
-        Psaltos.append(listaCuadruplos.getCont()+1)
+        Dsaltos[miga]=listaCuadruplos.getCont()+1
 
+        
 class for_param1(Nodo):
     def __init__(self, son1):
         self.son1 = son1
@@ -832,7 +800,7 @@ class function_call(Nodo):
         
         # REGLA
         # CUADRUPLO ERA
-        #tablaMemoria.reiniciarContTbVarFun()
+
         fun = PilaO.pop()
         listaCuadruplos.cuad4("ERA",0,0,fun)
 
@@ -854,7 +822,7 @@ class function_call(Nodo):
         # CUADRUPLO ASIGNACION DE FUN A TEMP
         if flag == 0:
             tablaMemoria.addtbTempI("t{temp}".format(temp=incrementarTempI()))
-            listaCuadruplos.cuad4("=",22000,0,tablaMemoria.getContTbTempI()-1)
+            listaCuadruplos.cuad4("=",20000,0,tablaMemoria.getContTbTempI()-1)
             PilaO.append(tablaMemoria.getContTbTempI()-1)
         
 
@@ -1314,7 +1282,7 @@ class factor4(Nodo):
         self.son1 = son1
 
     def traducir(self):
-        # NOT
+        # VAR
         if type(self.son1) == type(tuple()):
             self.son1[0].traducir()
         else:
@@ -1709,6 +1677,8 @@ class Const_string(Nodo):
     def traducir(self):
         # CONST_STRING
         # REGLA
+        if self.name not in tablaMemoria.tbConst:
+            tablaMemoria.addtbConst(self.name)
         PilaO.append(self.name)
 
 class Const_int(Nodo):
@@ -1720,7 +1690,6 @@ class Const_int(Nodo):
         # REGLA
         if self.name not in tablaMemoria.tbConst:
             tablaMemoria.addtbConst(self.name)
-        #PilaO.append(tablaMemoria.tbConst.get(self.name))
         PilaO.append(self.name)
 
 class Const_float(Nodo):

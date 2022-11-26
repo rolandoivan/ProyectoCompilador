@@ -1,0 +1,28 @@
+main{
+    var int Arreglo[8];
+    var int temp;
+    Arreglo[0]=30;
+    Arreglo[1]=20;
+    Arreglo[2]=10;
+    Arreglo[3]=40;
+    Arreglo[4]=50;
+    Arreglo[5]=60;
+    Arreglo[6]=70;
+    Arreglo[7]=80;
+    Arreglo[8]=90;
+    #Sort
+    var int i,j,temp;
+    for(i=0;i<10;i=i+1){
+        for(j=0;j<10;j=j+1){
+            if(Arreglo[j]>Arreglo[j+1]){
+                temp=Arreglo[j];
+
+                Arreglo[j]=Arreglo[j+1];
+                Arreglo[j+1]=temp;
+            }
+        }
+    }
+    for(i=0;i<4;i=i+1){
+        print(Arreglo[i]);
+    }
+}

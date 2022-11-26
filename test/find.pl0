@@ -1,0 +1,14 @@
+main{
+    var int Arreglo[3];
+    var int i;
+    Arreglo[0] = 1;
+    Arreglo[1] = 2;
+    Arreglo[2] = 3;
+    Arreglo[3] = 4;
+    for (i = 0; i <= 3; i = i + 1){
+        if (Arreglo[i] == 3){
+            print("index",i);
+            print("valor",Arreglo[i]);
+        }
+    }
+}

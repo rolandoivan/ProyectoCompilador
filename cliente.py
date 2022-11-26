@@ -1,4 +1,5 @@
 from analizadorSintactico import *
+#from maquinaVirtual import *
 
 # Lista de tests
 def buscarFichero(directorio):

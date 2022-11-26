@@ -1,0 +1,14 @@
+main{
+    var int n1, n2, n, aux, cont;
+    n1 = 1;
+    n2 = 1;
+    cont = 0;
+    read(n);
+    while (cont < n){
+        print(n1);
+        aux = n1 + n2;
+        n1 = n2;
+        n2 = aux;
+        cont = cont + 1;
+    }
+}

@@ -1,0 +1,9 @@
+main{
+    var int i,n,fact;
+    read(n);
+    fact = 1;
+    for(i = 1; i <= n; i=i+1){
+        fact = fact * i;
+        print(fact);
+    }
+}

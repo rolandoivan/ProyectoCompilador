@@ -1,0 +1,15 @@
+def int fact(int n) {
+    if (n <= 1) {
+        return 1;
+    } 
+    else {
+        return(n * fact(n - 1));
+    }
+}
+
+main {
+    var int i;
+    for (i = 0; i <= 4; i = i + 1) {
+        print(fact(i));
+    }
+}

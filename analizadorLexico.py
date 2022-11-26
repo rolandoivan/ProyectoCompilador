@@ -7,7 +7,7 @@ import sys
 
 reserved = {
     'if'      : 'IF',
-    'elif'    : 'ELIF',
+    #'elif'    : 'ELIF',
     'else'    : 'ELSE',
     'return'  : 'RETURN',
     'for'     : 'FOR',
@@ -19,7 +19,7 @@ reserved = {
     'var'     : 'VAR',
     'print'   : 'PRINT',
     'read'    : 'READ',
-    #'bool'    : 'BOOL',
+    'bool'    : 'BOOL',
     'string'  : 'STRING',
     'float'   : 'FLOAT',
     'int'     : 'INT'
@@ -33,7 +33,7 @@ tokens = ['ID','CONST_INT','CONST_FLOAT','CONST_STRING',
         'LPARENTHESIS', 'RPARENTHESIS',
         'LCURLY_BRACKET','RCURLY_BRACKET',
         'LSQUARE_BRACKET','RSQUARE_BRACKET',
-        'COMMA', 'SEMICOLON'#, 'DOT'
+        'COMMA', 'SEMICOLON'
 ] + list(reserved.values())
 
 t_ignore = '\t'

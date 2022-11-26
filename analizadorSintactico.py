@@ -134,9 +134,9 @@ def p_condition(p):
     '''condition : IF LPARENTHESIS expression RPARENTHESIS block condition_else'''
     p[0] = condition(p[3],p[5],p[6])
 
-def p_condition_else1(p):
-    '''condition_else : ELIF LPARENTHESIS expression RPARENTHESIS block condition_else'''
-    p[0] = condition_else1(p[3],p[5],p[6])
+#def p_condition_else1(p):
+#    '''condition_else : ELIF LPARENTHESIS expression RPARENTHESIS block condition_else'''
+#    p[0] = condition_else1(p[3],p[5],p[6])
 
 def p_condition_else2(p):
     '''condition_else : ELSE block'''
@@ -385,9 +385,9 @@ def p_type3(p):
     '''type : STRING'''
     p[0] = type4(String(p[1]))
 
-#def p_type4(p):
-#    '''type : BOOL'''
-#    p[0] = type3(Bool(p[1]))
+def p_type4(p):
+    '''type : BOOL'''
+    p[0] = type3(Bool(p[1]))
 
 def p_type_fun1(p):
     '''type_fun : type'''

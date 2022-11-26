@@ -1,0 +1,9 @@
+def int pelos(int a){
+    return (a*2+2);
+}
+def int patito(int i){
+    return pelos(i*2)+3;
+}
+main{
+    print(patito(4));
+}

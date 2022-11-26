@@ -88,6 +88,9 @@ class Memoria():
     def getContTbVarFun(self):
         return self.tbVarFunCont
 
+    def getContTbVar(self):
+        return self.tbVarCont
+
     def getVarFunMax(self):
         return self.tbVarFunMax
 
